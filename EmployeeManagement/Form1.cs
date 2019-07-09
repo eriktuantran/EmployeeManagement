@@ -202,7 +202,7 @@ namespace WindowsFormsApplication1
                     {
                         int remain = (int)(minTimeBetweenScanSteps - timeDiff);
                         Console.WriteLine("Duplicated activities");
-                        lblId.Text = "Updated! Pls wait: " + remain.ToString() + " second";
+                        lblId.Text = "Already updated!";
                         return;
                     }
                     else
