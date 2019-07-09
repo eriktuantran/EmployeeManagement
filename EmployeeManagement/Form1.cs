@@ -198,9 +198,11 @@ namespace WindowsFormsApplication1
                     double timeDiff = (now - last).TotalSeconds;
                     Console.WriteLine("TimeDiff for " + empId + ": " + timeDiff.ToString());
 
-                    if(timeDiff < minTimeBetweenScanSteps)
+                    if (timeDiff < minTimeBetweenScanSteps)
                     {
+                        int remain = (int)(minTimeBetweenScanSteps - timeDiff);
                         Console.WriteLine("Duplicated activities");
+                        lblId.Text = "Updated! Pls wait: " + remain.ToString() + " second";
                         return;
                     }
                     else
@@ -216,9 +218,16 @@ namespace WindowsFormsApplication1
 
                 // Actual event to update GUI and DB
                 string absImageDir = captureCamera();
-                updateTimeInOut(empId, absImageDir);
-                displayNameAndImage(empId);
-                displayTime();
+                try
+                {
+                    updateTimeInOut(empId, absImageDir);
+                    displayNameAndImage(empId);
+                    displayTime();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Connection ERROR: "+ex.Message, "Lost database connection!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -464,6 +473,7 @@ namespace WindowsFormsApplication1
                 }
 
                 cmd.Connection = connection;
+
                 cmd.ExecuteNonQuery();
                 this.CloseConnection();
             }

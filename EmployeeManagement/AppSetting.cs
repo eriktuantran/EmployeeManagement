@@ -219,6 +219,7 @@ namespace StreamPlayerDemo
                         result = "Cannot connect to host";
                         break;
                 }
+                MessageBox.Show("Exception: " + ex.Message, "Exception!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return result;
         }
