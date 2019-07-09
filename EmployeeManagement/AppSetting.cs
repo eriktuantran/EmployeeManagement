@@ -20,6 +20,7 @@ namespace StreamPlayerDemo
         public string imageDir;
         public string connectionString;
         public bool isDisplayTime = false;
+        public int minTimeBetweenScanSteps = 10;
 
         //DB
         private MySqlConnection connection;
@@ -59,62 +60,65 @@ namespace StreamPlayerDemo
             progressBar1.Visible = false;
         }
 
-        void updateAllFormValueFromDictionary(MyDictionary myDict)
+        void updateAllFormValueFromDictionary(MyDictionary readConfigDict)
         {
-            if (myDict.ContainsKey("camip") &&  myDict["camip"] != "")
+            if (readConfigDict.ContainsKey("camip") &&  readConfigDict["camip"] != "")
             {
-                txtIp.Text = myDict["camip"];
+                txtIp.Text = readConfigDict["camip"];
+            }
+            if (readConfigDict.ContainsKey("camport") && readConfigDict["camport"] != "")
+            {
+                txtPort.Text = readConfigDict["camport"];
+            }
+            if (readConfigDict.ContainsKey("camuser") && readConfigDict["camuser"] != "")
+            {
+                txtUser.Text = readConfigDict["camuser"];
+            }
+            if (readConfigDict.ContainsKey("campass") && readConfigDict["campass"] != "")
+            {
+                txtPasswd.Text = readConfigDict["campass"];
+            }
+            if (readConfigDict.ContainsKey("camindex") && readConfigDict["camindex"] != "")
+            {
+                cboxSuffix.SelectedIndex = Int32.Parse(readConfigDict["camindex"]);
+            }
+            if (readConfigDict.ContainsKey("url") && readConfigDict["url"] != "")
+            {
+                txtUrl.Text = readConfigDict["url"];
+            }
+            if (readConfigDict.ContainsKey("imagedir") && readConfigDict["imagedir"] != "")
+            {
+                txtImageDir.Text = readConfigDict["imagedir"];
             }
 
-            if (myDict.ContainsKey("camport") && myDict["camport"] != "")
+            if (readConfigDict.ContainsKey("dbip") && readConfigDict["dbip"] != "")
             {
-                txtPort.Text = myDict["camport"];
+                txtDbIP.Text = readConfigDict["dbip"];
+            }
+            if (readConfigDict.ContainsKey("dbport") && readConfigDict["dbport"] != "")
+            {
+                txtDbPort.Text = readConfigDict["dbport"];
+            }
+            if (readConfigDict.ContainsKey("dbuser") && readConfigDict["dbuser"] != "")
+            {
+                txtDbUser.Text = readConfigDict["dbuser"];
+            }
+            if (readConfigDict.ContainsKey("dbpass") && readConfigDict["dbpass"] != "")
+            {
+                txtDbPasswd.Text = readConfigDict["dbpass"];
+            }
+            if (readConfigDict.ContainsKey("dbname") && readConfigDict["dbname"] != "")
+            {
+                txtDbName.Text = readConfigDict["dbname"];
             }
 
-            if (myDict.ContainsKey("camuser") && myDict["camuser"] != "")
+            if (readConfigDict.ContainsKey("displaytime") && readConfigDict["displaytime"] != "")
             {
-                txtUser.Text = myDict["camuser"];
+                chkDisplayTime.Checked = readConfigDict["displaytime"].Contains("rue") ? true : false;
             }
-
-            if (myDict.ContainsKey("campass") && myDict["campass"] != "")
+            if (readConfigDict.ContainsKey("mintimescan") && readConfigDict["mintimescan"] != "")
             {
-                txtPasswd.Text = myDict["campass"];
-            }
-            if (myDict.ContainsKey("camindex") && myDict["camindex"] != "")
-            {
-                cboxSuffix.SelectedIndex = Int32.Parse(myDict["camindex"]);
-            }
-            if (myDict.ContainsKey("url") && myDict["url"] != "")
-            {
-                txtUrl.Text = myDict["url"];
-            }
-            if (myDict.ContainsKey("imagedir") && myDict["imagedir"] != "")
-            {
-                txtImageDir.Text = myDict["imagedir"];
-            }
-            if (myDict.ContainsKey("displaytime") && myDict["displaytime"] != "")
-            {
-                chkDisplayTime.Checked = myDict["displaytime"].Contains("rue")?true:false;
-            }
-            if (myDict.ContainsKey("dbip") && myDict["dbip"] != "")
-            {
-                txtDbIP.Text = myDict["dbip"];
-            }
-            if (myDict.ContainsKey("dbport") && myDict["dbport"] != "")
-            {
-                txtDbPort.Text = myDict["dbport"];
-            }
-            if (myDict.ContainsKey("dbuser") && myDict["dbuser"] != "")
-            {
-                txtDbUser.Text = myDict["dbuser"];
-            }
-            if (myDict.ContainsKey("dbpass") && myDict["dbpass"] != "")
-            {
-                txtDbPasswd.Text = myDict["dbpass"];
-            }
-            if (myDict.ContainsKey("dbname") && myDict["dbname"] != "")
-            {
-                txtDbName.Text = myDict["dbname"];
+                minTimeScan.Value = Int32.Parse(readConfigDict["mintimescan"]);
             }
         }
 
@@ -128,12 +132,15 @@ namespace StreamPlayerDemo
             globalDictionary["url"] = txtUrl.Text;
             globalDictionary["imagedir"] = txtImageDir.Text;
             globalDictionary["connectstring"] = this.connectionString;
-            globalDictionary["displaytime"] = chkDisplayTime.Checked.ToString();
+
             globalDictionary["dbip"] = txtDbIP.Text;
             globalDictionary["dbport"] = txtDbPort.Text;
             globalDictionary["dbuser"] = txtDbUser.Text;
             globalDictionary["dbpass"] = txtDbPasswd.Text;
             globalDictionary["dbname"] = txtDbName.Text;
+
+            globalDictionary["displaytime"] = chkDisplayTime.Checked.ToString();
+            globalDictionary["mintimescan"] = minTimeScan.Value.ToString();
         }
 
         void intialValue()
@@ -227,6 +234,7 @@ namespace StreamPlayerDemo
             cameraUrl = txtUrl.Text;
             imageDir = txtImageDir.Text;
             isDisplayTime = chkDisplayTime.Checked;
+            minTimeBetweenScanSteps = Decimal.ToInt32(minTimeScan.Value);
             updateConnectionString();
 
             updateDictionaryEvent();
@@ -378,7 +386,5 @@ namespace StreamPlayerDemo
             globalDictionary["displaytime"] = chkDisplayTime.Checked.ToString();
             Console.WriteLine(globalDictionary["displaytime"]);
         }
-
-
     }
 }

@@ -50,6 +50,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.txtUser = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.lblDbStatus = new System.Windows.Forms.Label();
             this.btnTestDb = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
@@ -66,13 +67,16 @@
             this.btnOK = new System.Windows.Forms.Button();
             this.chkDisplayTime = new System.Windows.Forms.CheckBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.minTimeScan = new System.Windows.Forms.NumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.progressbarWorker = new System.ComponentModel.BackgroundWorker();
             this.dbConnectionTester = new System.ComponentModel.BackgroundWorker();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.minTimeScan)).BeginInit();
             this.SuspendLayout();
             // 
             // txtUrl
@@ -289,10 +293,17 @@
             this.panel2.Controls.Add(this.txtDbUser);
             this.panel2.Controls.Add(this.label17);
             this.panel2.Controls.Add(this.txtDbIP);
-            this.panel2.Location = new System.Drawing.Point(627, 12);
+            this.panel2.Location = new System.Drawing.Point(605, 12);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(554, 416);
+            this.panel2.Size = new System.Drawing.Size(576, 416);
             this.panel2.TabIndex = 23;
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(361, 352);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(162, 43);
+            this.progressBar1.TabIndex = 26;
             // 
             // lblDbStatus
             // 
@@ -417,7 +428,7 @@
             // 
             this.btnOK.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnOK.ForeColor = System.Drawing.Color.Black;
-            this.btnOK.Location = new System.Drawing.Point(563, 685);
+            this.btnOK.Location = new System.Drawing.Point(543, 685);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(102, 53);
             this.btnOK.TabIndex = 0;
@@ -428,38 +439,70 @@
             // chkDisplayTime
             // 
             this.chkDisplayTime.AutoSize = true;
-            this.chkDisplayTime.Location = new System.Drawing.Point(28, 69);
+            this.chkDisplayTime.Location = new System.Drawing.Point(23, 51);
             this.chkDisplayTime.Name = "chkDisplayTime";
-            this.chkDisplayTime.Size = new System.Drawing.Size(161, 29);
+            this.chkDisplayTime.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.chkDisplayTime.Size = new System.Drawing.Size(167, 29);
             this.chkDisplayTime.TabIndex = 24;
-            this.chkDisplayTime.Text = "Display time";
+            this.chkDisplayTime.Text = ":Display time";
             this.chkDisplayTime.UseVisualStyleBackColor = true;
             this.chkDisplayTime.CheckStateChanged += new System.EventHandler(this.chkDisplayTime_CheckStateChanged);
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.label18);
+            this.panel3.Controls.Add(this.label14);
+            this.panel3.Controls.Add(this.minTimeScan);
             this.panel3.Controls.Add(this.label11);
             this.panel3.Controls.Add(this.chkDisplayTime);
-            this.panel3.Location = new System.Drawing.Point(627, 492);
+            this.panel3.Location = new System.Drawing.Point(605, 458);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(554, 149);
+            this.panel3.Size = new System.Drawing.Size(576, 183);
             this.panel3.TabIndex = 25;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(434, 127);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(82, 25);
+            this.label18.TabIndex = 28;
+            this.label18.Text = "second";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(23, 127);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(307, 25);
+            this.label14.TabIndex = 27;
+            this.label14.Text = "Minumum time between scans:";
+            // 
+            // minTimeScan
+            // 
+            this.minTimeScan.Location = new System.Drawing.Point(341, 124);
+            this.minTimeScan.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.minTimeScan.Name = "minTimeScan";
+            this.minTimeScan.Size = new System.Drawing.Size(86, 31);
+            this.minTimeScan.TabIndex = 26;
+            this.minTimeScan.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(3, 5);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(134, 25);
+            this.label11.Size = new System.Drawing.Size(141, 25);
             this.label11.TabIndex = 23;
-            this.label11.Text = "View setting:";
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(361, 352);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(162, 43);
-            this.progressBar1.TabIndex = 26;
+            this.label11.Text = "Other setting:";
             // 
             // progressbarWorker
             // 
@@ -492,6 +535,7 @@
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.minTimeScan)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -539,5 +583,8 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.ComponentModel.BackgroundWorker progressbarWorker;
         private System.ComponentModel.BackgroundWorker dbConnectionTester;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.NumericUpDown minTimeScan;
     }
 }

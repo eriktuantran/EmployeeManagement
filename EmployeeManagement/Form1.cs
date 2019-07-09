@@ -33,9 +33,17 @@ namespace WindowsFormsApplication1
         string backgroundImageDir = Directory.GetCurrentDirectory() + "\\background.jpg";
         Bitmap backImage;
 
+
+        //Prevent double scan in the very short time
+        private Dictionary<string, DateTime> scaningState;
+        private double minTimeBetweenScanSteps = 10;
+
         public Form1()
         {
             InitializeComponent();
+
+            //Prevent double scan in the very short time
+            scaningState = new Dictionary<string, DateTime>();
 
             // Read config from file
             Configuration config = new Configuration();
@@ -91,6 +99,10 @@ namespace WindowsFormsApplication1
             {
                 isDisplayTime = dict["displaytime"].Contains("rue");
             }
+            if (dict.ContainsKey("mintimescan") && dict["mintimescan"] != "")
+            {
+                minTimeBetweenScanSteps = Int32.Parse(dict["mintimescan"]);
+            }
         }
 
         void getValueFromSettingForm()
@@ -104,6 +116,7 @@ namespace WindowsFormsApplication1
             connectionString = appSetting.connectionString;
             connection = new MySqlConnection(connectionString);
             isDisplayTime = appSetting.isDisplayTime;
+            minTimeBetweenScanSteps = appSetting.minTimeBetweenScanSteps;
 
             Console.WriteLine("Setting done");
         }
@@ -152,36 +165,60 @@ namespace WindowsFormsApplication1
                     }
                 }
             }
-            else if (e.KeyChar == 13 && _barcode.Count > 0)
+            else if (e.KeyChar == 13 && _barcode.Count > 0) //MAIN EVENT
             {
-                string msg = new String(_barcode.ToArray());
+                string empId = new String(_barcode.ToArray());
                 //MessageBox.Show(msg);
-                lblId.Text = msg;
+                lblId.Text = empId;
                 _barcode.Clear();
 
+                // Check if the ID is valid: contains number
                 int tmp;
-                if (!Int32.TryParse(msg, out tmp))
+                if (!Int32.TryParse(empId, out tmp))
                 {
-                    Console.WriteLine("Invalid ID: " + msg);
+                    Console.WriteLine("Invalid ID: " + empId);
                     lblId.Text = "";
                     return;
                 }
 
-                if (isEmployeeExist(lblId.Text))
-                {
-                    string absImageDir = captureCamera();
-
-                    updateTimeInOut(lblId.Text, absImageDir);
-
-                    displayNameAndImage(lblId.Text);
-                    displayTime();
-                }
-                else
+                // Employee exist or not
+                if (!isEmployeeExist(empId))
                 {
                     lblId.Text = lblName.Text = txtRole.Text = lblTime.Text = "";
                     picBoxEmployee.Image = null;
-                    Console.WriteLine("Employee does not exist: " + msg);
+                    Console.WriteLine("Employee does not exist: " + empId);
+                    return;
                 }
+
+                // Check recent activities
+                if (scaningState.ContainsKey(empId))
+                {
+                    DateTime last = scaningState[empId];
+                    DateTime now = DateTime.Now;
+                    double timeDiff = (now - last).TotalSeconds;
+                    Console.WriteLine("TimeDiff for " + empId + ": " + timeDiff.ToString());
+
+                    if(timeDiff < minTimeBetweenScanSteps)
+                    {
+                        Console.WriteLine("Duplicated activities");
+                        return;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Remove key from activities");
+                        scaningState.Remove(empId);
+                    }
+                }
+
+                // Save activities timestamp
+                scaningState[empId] = DateTime.Now;
+
+
+                // Actual event to update GUI and DB
+                string absImageDir = captureCamera();
+                updateTimeInOut(empId, absImageDir);
+                displayNameAndImage(empId);
+                displayTime();
             }
         }
 
