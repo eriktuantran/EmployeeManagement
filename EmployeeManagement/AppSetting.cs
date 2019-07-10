@@ -20,7 +20,7 @@ namespace StreamPlayerDemo
         public string imageDir;
         public string connectionString;
         public bool isDisplayTime = false;
-        public int minTimeBetweenScanSteps = 10;
+        public int minTimeBetweenScanSteps = 3600; //second
 
         //DB
         private MySqlConnection connection;
@@ -118,7 +118,12 @@ namespace StreamPlayerDemo
             }
             if (readConfigDict.ContainsKey("mintimescan") && readConfigDict["mintimescan"] != "")
             {
-                minTimeScan.Value = Int32.Parse(readConfigDict["mintimescan"]);
+                int readValue = Int32.Parse(readConfigDict["mintimescan"]);
+                if (readValue <minTimeScan.Minimum || readValue > minTimeScan.Maximum)
+                {
+                    readValue = 3600;
+                }
+                minTimeScan.Value = readValue;
             }
         }
 

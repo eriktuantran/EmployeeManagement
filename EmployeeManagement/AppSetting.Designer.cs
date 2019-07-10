@@ -463,7 +463,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(434, 127);
+            this.label18.Location = new System.Drawing.Point(479, 127);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(82, 25);
             this.label18.TabIndex = 28;
@@ -480,17 +480,27 @@
             // 
             // minTimeScan
             // 
+            this.minTimeScan.Increment = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
             this.minTimeScan.Location = new System.Drawing.Point(341, 124);
+            this.minTimeScan.Maximum = new decimal(new int[] {
+            7200,
+            0,
+            0,
+            0});
             this.minTimeScan.Minimum = new decimal(new int[] {
-            5,
+            1800,
             0,
             0,
             0});
             this.minTimeScan.Name = "minTimeScan";
-            this.minTimeScan.Size = new System.Drawing.Size(86, 31);
+            this.minTimeScan.Size = new System.Drawing.Size(132, 31);
             this.minTimeScan.TabIndex = 26;
             this.minTimeScan.Value = new decimal(new int[] {
-            10,
+            3600,
             0,
             0,
             0});

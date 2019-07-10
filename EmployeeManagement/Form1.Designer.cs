@@ -63,7 +63,7 @@
             this.streamPlayerControl1.Location = new System.Drawing.Point(13, 44);
             this.streamPlayerControl1.Margin = new System.Windows.Forms.Padding(4);
             this.streamPlayerControl1.Name = "streamPlayerControl1";
-            this.streamPlayerControl1.Size = new System.Drawing.Size(600, 1111);
+            this.streamPlayerControl1.Size = new System.Drawing.Size(599, 1358);
             this.streamPlayerControl1.TabIndex = 0;
             this.streamPlayerControl1.StreamStarted += new System.EventHandler(this.HandleStreamStartedEvent);
             this.streamPlayerControl1.StreamStopped += new System.EventHandler(this.HandleStreamStoppedEvent);
@@ -72,7 +72,7 @@
             // _playButton
             // 
             this._playButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this._playButton.Location = new System.Drawing.Point(13, 1187);
+            this._playButton.Location = new System.Drawing.Point(13, 1434);
             this._playButton.Margin = new System.Windows.Forms.Padding(4);
             this._playButton.Name = "_playButton";
             this._playButton.Size = new System.Drawing.Size(100, 46);
@@ -85,7 +85,7 @@
             // 
             this._stopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this._stopButton.Enabled = false;
-            this._stopButton.Location = new System.Drawing.Point(121, 1188);
+            this._stopButton.Location = new System.Drawing.Point(121, 1435);
             this._stopButton.Margin = new System.Windows.Forms.Padding(4);
             this._stopButton.Name = "_stopButton";
             this._stopButton.Size = new System.Drawing.Size(100, 46);
@@ -124,7 +124,7 @@
             // 
             this.lblStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(229, 1199);
+            this.lblStatus.Location = new System.Drawing.Point(229, 1446);
             this.lblStatus.Margin = new System.Windows.Forms.Padding(4);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(73, 25);
@@ -136,7 +136,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(3, 672);
+            this.label1.Location = new System.Drawing.Point(3, 837);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 46);
             this.label1.TabIndex = 9;
@@ -156,9 +156,9 @@
             this.panel1.Controls.Add(this.lblName);
             this.panel1.Controls.Add(this.lblId);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(691, 44);
+            this.panel1.Location = new System.Drawing.Point(648, 44);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(790, 1111);
+            this.panel1.Size = new System.Drawing.Size(833, 1358);
             this.panel1.TabIndex = 10;
             // 
             // lblTime0
@@ -166,18 +166,18 @@
             this.lblTime0.AutoSize = true;
             this.lblTime0.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTime0.ForeColor = System.Drawing.Color.Red;
-            this.lblTime0.Location = new System.Drawing.Point(3, 981);
+            this.lblTime0.Location = new System.Drawing.Point(3, 1146);
             this.lblTime0.Name = "lblTime0";
-            this.lblTime0.Size = new System.Drawing.Size(124, 46);
+            this.lblTime0.Size = new System.Drawing.Size(205, 46);
             this.lblTime0.TabIndex = 20;
-            this.lblTime0.Text = "Time:";
+            this.lblTime0.Text = "Thời gian:";
             // 
             // lblTime
             // 
             this.lblTime.AutoSize = true;
             this.lblTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTime.ForeColor = System.Drawing.Color.Red;
-            this.lblTime.Location = new System.Drawing.Point(157, 983);
+            this.lblTime.Location = new System.Drawing.Point(232, 1148);
             this.lblTime.Name = "lblTime";
             this.lblTime.Size = new System.Drawing.Size(53, 44);
             this.lblTime.TabIndex = 19;
@@ -189,11 +189,11 @@
             this.txtRole.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtRole.ForeColor = System.Drawing.Color.Red;
-            this.txtRole.Location = new System.Drawing.Point(168, 874);
+            this.txtRole.Location = new System.Drawing.Point(284, 1039);
             this.txtRole.Multiline = true;
             this.txtRole.Name = "txtRole";
             this.txtRole.ReadOnly = true;
-            this.txtRole.Size = new System.Drawing.Size(602, 153);
+            this.txtRole.Size = new System.Drawing.Size(531, 110);
             this.txtRole.TabIndex = 18;
             // 
             // label2
@@ -201,20 +201,20 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(3, 874);
+            this.label2.Location = new System.Drawing.Point(3, 1039);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(132, 46);
+            this.label2.Size = new System.Drawing.Size(254, 46);
             this.label2.TabIndex = 17;
-            this.label2.Text = "Dept.:";
+            this.label2.Text = "Tổ/Bộ Phận:";
             // 
             // picBoxEmployee
             // 
             this.picBoxEmployee.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.picBoxEmployee.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picBoxEmployee.Location = new System.Drawing.Point(168, 19);
+            this.picBoxEmployee.Location = new System.Drawing.Point(165, 33);
             this.picBoxEmployee.Name = "picBoxEmployee";
-            this.picBoxEmployee.Size = new System.Drawing.Size(530, 600);
+            this.picBoxEmployee.Size = new System.Drawing.Size(508, 732);
             this.picBoxEmployee.TabIndex = 15;
             this.picBoxEmployee.TabStop = false;
             // 
@@ -223,18 +223,18 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Red;
-            this.label3.Location = new System.Drawing.Point(3, 771);
+            this.label3.Location = new System.Drawing.Point(3, 936);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(142, 46);
+            this.label3.Size = new System.Drawing.Size(103, 46);
             this.label3.TabIndex = 14;
-            this.label3.Text = "Name:";
+            this.label3.Text = "Tên:";
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
             this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblName.ForeColor = System.Drawing.Color.Red;
-            this.lblName.Location = new System.Drawing.Point(157, 773);
+            this.lblName.Location = new System.Drawing.Point(157, 938);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(53, 44);
             this.lblName.TabIndex = 13;
@@ -245,7 +245,7 @@
             this.lblId.AutoSize = true;
             this.lblId.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblId.ForeColor = System.Drawing.Color.Red;
-            this.lblId.Location = new System.Drawing.Point(157, 672);
+            this.lblId.Location = new System.Drawing.Point(157, 837);
             this.lblId.Name = "lblId";
             this.lblId.Size = new System.Drawing.Size(56, 46);
             this.lblId.TabIndex = 10;
@@ -255,7 +255,7 @@
             // 
             this.chkTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chkTest.AutoSize = true;
-            this.chkTest.Location = new System.Drawing.Point(1366, 1199);
+            this.chkTest.Location = new System.Drawing.Point(1366, 1446);
             this.chkTest.Name = "chkTest";
             this.chkTest.Size = new System.Drawing.Size(115, 29);
             this.chkTest.TabIndex = 11;
@@ -270,7 +270,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.backgroundImage.Location = new System.Drawing.Point(12, 44);
             this.backgroundImage.Name = "backgroundImage";
-            this.backgroundImage.Size = new System.Drawing.Size(601, 1111);
+            this.backgroundImage.Size = new System.Drawing.Size(600, 1358);
             this.backgroundImage.TabIndex = 12;
             this.backgroundImage.TabStop = false;
             // 
@@ -278,7 +278,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1493, 1246);
+            this.ClientSize = new System.Drawing.Size(1493, 1493);
             this.Controls.Add(this.backgroundImage);
             this.Controls.Add(this.chkTest);
             this.Controls.Add(this.panel1);

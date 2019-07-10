@@ -36,7 +36,7 @@ namespace WindowsFormsApplication1
 
         //Prevent double scan in the very short time
         private Dictionary<string, DateTime> scaningState;
-        private double minTimeBetweenScanSteps = 10;
+        private double minTimeBetweenScanSteps = 3600; //second
 
         public Form1()
         {
@@ -202,7 +202,7 @@ namespace WindowsFormsApplication1
                     {
                         int remain = (int)(minTimeBetweenScanSteps - timeDiff);
                         Console.WriteLine("Duplicated activities");
-                        lblId.Text = "Already updated!";
+                        lblId.Text = "Đã thực hiện!";
                         return;
                     }
                     else
