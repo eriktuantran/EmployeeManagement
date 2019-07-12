@@ -1,0 +1,7 @@
+*.pdb
+*.bin
+EmployeeManagement/bin/x86/Debug/*.dll
+ParkingManagement/bin/x86/Debug/*.dll
+EmployeeManagement/obj
+ParkingManagement/obj
+*exe.config
