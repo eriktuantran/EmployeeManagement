@@ -12,7 +12,7 @@ using Ozeki.Media;
 using System.Text.RegularExpressions;
 using MyDictionary = System.Collections.Generic.Dictionary<string, string>;
 
-namespace StreamPlayerDemo
+namespace EmployeeManagementApplicationSetting
 {
     public partial class AppSetting : Form
     {

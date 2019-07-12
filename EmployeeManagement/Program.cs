@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Windows.Forms;
 
-namespace WindowsFormsApplication1
+namespace EmployeeManagement
 {
     static class Program
     {
@@ -16,7 +16,7 @@ namespace WindowsFormsApplication1
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new EmployeeManagement());
         }
 
         static void HandleApplicationThreadException(object sender, ThreadExceptionEventArgs e)

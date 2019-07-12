@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MyDictionary = System.Collections.Generic.Dictionary<string, string>;
 
-namespace StreamPlayerDemo
+namespace EmployeeManagementApplicationSetting
 {
     class Configuration
     {

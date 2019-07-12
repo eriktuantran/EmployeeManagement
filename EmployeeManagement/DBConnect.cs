@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
-namespace StreamPlayerDemo
+namespace EmployeeManagementApplicationSetting
 {
     class DBConnect
     {

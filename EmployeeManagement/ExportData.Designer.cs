@@ -1,4 +1,4 @@
-﻿namespace StreamPlayerDemo
+﻿namespace EmployeeManagementApplicationSetting
 {
     partial class ExportData
     {

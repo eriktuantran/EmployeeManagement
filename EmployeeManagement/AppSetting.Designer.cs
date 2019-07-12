@@ -1,4 +1,4 @@
-﻿namespace StreamPlayerDemo
+﻿namespace EmployeeManagementApplicationSetting
 {
     partial class AppSetting
     {
@@ -492,7 +492,7 @@
             0,
             0});
             this.minTimeScan.Minimum = new decimal(new int[] {
-            1800,
+            10,
             0,
             0,
             0});
