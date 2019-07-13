@@ -38,6 +38,12 @@ namespace EmployeeManagement
         private Dictionary<string, DateTime> scaningState;
         private double minTimeBetweenScanSteps = 3600; //second
 
+
+        // Enabled in Play button, auto retry in connection failed
+        private bool cameraStatus = true;
+
+
+
         public EmployeeManagement()
         {
             InitializeComponent();
@@ -491,6 +497,7 @@ namespace EmployeeManagement
 
         private void playButton_Click(object sender, EventArgs e)
         {
+            cameraStatus = true;
             playCamera();
         }
 
@@ -503,14 +510,21 @@ namespace EmployeeManagement
             }
 
             var uri = new Uri(cameraAddress);
-            streamPlayerControl1.StartPlay(uri);
-            lblStatus.Text = "Connecting...";
+            if (streamPlayerControl1.IsPlaying == false)
+            {
+                streamPlayerControl1.StartPlay(uri);
+                lblStatus.Text = "Connecting...";
+            }  
         }
 
         private void stopButton_Click(object sender, EventArgs e)
         {
-            streamPlayerControl1.Stop();
+            if (streamPlayerControl1.IsPlaying)
+            {
+                streamPlayerControl1.Stop();
+            }
             backgroundImage.Visible = true;
+            cameraStatus = false;
         }
 
         private void UpdateButtons()
@@ -533,6 +547,11 @@ namespace EmployeeManagement
             UpdateButtons();
 
             lblStatus.Text = "Can not connect to camera";
+            if (cameraStatus)
+            {
+                playCamera();
+                Console.WriteLine("Stream failed event, trying to reconnect");
+            }
             backgroundImage.Visible = true;
 
             //MessageBox.Show("Can not connect to camera!", "Stream Player Demo", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -541,6 +560,12 @@ namespace EmployeeManagement
         private void HandleStreamStoppedEvent(object sender, EventArgs e)
         {
             UpdateButtons();
+
+            if (cameraStatus)
+            {
+                playCamera();
+                Console.WriteLine("Stream failed event, trying to reconnect");
+            }
 
             lblStatus.Text = "Stopped";
         }
