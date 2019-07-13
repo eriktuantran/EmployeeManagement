@@ -35,9 +35,13 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.settingMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.cameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.employeesMotobikeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblFrontCamStatus = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lblMotorNum = new System.Windows.Forms.Label();
             this.lblCheckinStatus = new System.Windows.Forms.Label();
             this.lblTime0 = new System.Windows.Forms.Label();
             this.lblTime = new System.Windows.Forms.Label();
@@ -53,8 +57,6 @@
             this.rearCameraStream = new WebEye.Controls.WinForms.StreamPlayerControl.StreamPlayerControl();
             this.rearImageSaved = new System.Windows.Forms.PictureBox();
             this.lblRearCamStatus = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxEmployee)).BeginInit();
@@ -69,7 +71,7 @@
             this.frontCameraStream.Location = new System.Drawing.Point(4, 4);
             this.frontCameraStream.Margin = new System.Windows.Forms.Padding(4);
             this.frontCameraStream.Name = "frontCameraStream";
-            this.frontCameraStream.Size = new System.Drawing.Size(400, 400);
+            this.frontCameraStream.Size = new System.Drawing.Size(600, 600);
             this.frontCameraStream.TabIndex = 0;
             this.frontCameraStream.StreamStarted += new System.EventHandler(this.FrontCamHandleStreamStartedEvent);
             this.frontCameraStream.StreamStopped += new System.EventHandler(this.FrontCamHandleStreamStoppedEvent);
@@ -78,7 +80,7 @@
             // _playButton
             // 
             this._playButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this._playButton.Location = new System.Drawing.Point(13, 1272);
+            this._playButton.Location = new System.Drawing.Point(13, 1312);
             this._playButton.Margin = new System.Windows.Forms.Padding(4);
             this._playButton.Name = "_playButton";
             this._playButton.Size = new System.Drawing.Size(100, 46);
@@ -91,7 +93,7 @@
             // 
             this._stopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this._stopButton.Enabled = false;
-            this._stopButton.Location = new System.Drawing.Point(121, 1273);
+            this._stopButton.Location = new System.Drawing.Point(121, 1313);
             this._stopButton.Margin = new System.Windows.Forms.Padding(4);
             this._stopButton.Name = "_stopButton";
             this._stopButton.Size = new System.Drawing.Size(100, 46);
@@ -99,15 +101,17 @@
             this._stopButton.Text = "Stop";
             this._stopButton.UseVisualStyleBackColor = true;
             this._stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            this._stopButton.Enter += new System.EventHandler(this._stopButton_Enter);
             // 
             // menuStrip1
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.settingMenu});
+            this.settingMenu,
+            this.dataToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1953, 40);
+            this.menuStrip1.Size = new System.Drawing.Size(2265, 40);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -126,11 +130,26 @@
             this.cameraToolStripMenuItem.Text = "App Setting";
             this.cameraToolStripMenuItem.Click += new System.EventHandler(this.settingToolStripMenuItem_Click);
             // 
+            // dataToolStripMenuItem
+            // 
+            this.dataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.employeesMotobikeToolStripMenuItem});
+            this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
+            this.dataToolStripMenuItem.Size = new System.Drawing.Size(76, 36);
+            this.dataToolStripMenuItem.Text = "Data";
+            // 
+            // employeesMotobikeToolStripMenuItem
+            // 
+            this.employeesMotobikeToolStripMenuItem.Name = "employeesMotobikeToolStripMenuItem";
+            this.employeesMotobikeToolStripMenuItem.Size = new System.Drawing.Size(353, 38);
+            this.employeesMotobikeToolStripMenuItem.Text = "Employees motorbike ";
+            this.employeesMotobikeToolStripMenuItem.Click += new System.EventHandler(this.employeesMotobikeToolStripMenuItem_Click);
+            // 
             // lblFrontCamStatus
             // 
             this.lblFrontCamStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblFrontCamStatus.AutoSize = true;
-            this.lblFrontCamStatus.Location = new System.Drawing.Point(235, 1268);
+            this.lblFrontCamStatus.Location = new System.Drawing.Point(235, 1308);
             this.lblFrontCamStatus.Margin = new System.Windows.Forms.Padding(4);
             this.lblFrontCamStatus.Name = "lblFrontCamStatus";
             this.lblFrontCamStatus.Size = new System.Drawing.Size(73, 25);
@@ -154,7 +173,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gainsboro;
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.lblMotorNum);
             this.panel1.Controls.Add(this.lblCheckinStatus);
             this.panel1.Controls.Add(this.lblTime0);
             this.panel1.Controls.Add(this.lblTime);
@@ -165,10 +184,34 @@
             this.panel1.Controls.Add(this.lblName);
             this.panel1.Controls.Add(this.lblId);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(1108, 44);
+            this.panel1.Location = new System.Drawing.Point(1420, 44);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(833, 1203);
+            this.panel1.Size = new System.Drawing.Size(833, 1243);
             this.panel1.TabIndex = 10;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.Red;
+            this.label4.Location = new System.Drawing.Point(3, 760);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(173, 46);
+            this.label4.TabIndex = 23;
+            this.label4.Text = "Biển số:";
+            this.label4.Click += new System.EventHandler(this.LabelMotorNumber_Click);
+            // 
+            // lblMotorNum
+            // 
+            this.lblMotorNum.AutoSize = true;
+            this.lblMotorNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMotorNum.ForeColor = System.Drawing.Color.Red;
+            this.lblMotorNum.Location = new System.Drawing.Point(182, 762);
+            this.lblMotorNum.Name = "lblMotorNum";
+            this.lblMotorNum.Size = new System.Drawing.Size(56, 44);
+            this.lblMotorNum.TabIndex = 22;
+            this.lblMotorNum.Text = "...";
+            this.lblMotorNum.Click += new System.EventHandler(this.LabelMotorNumber_Click);
             // 
             // lblCheckinStatus
             // 
@@ -277,7 +320,7 @@
             this.chkTest.AutoSize = true;
             this.chkTest.Checked = true;
             this.chkTest.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkTest.Location = new System.Drawing.Point(1826, 1291);
+            this.chkTest.Location = new System.Drawing.Point(2138, 1331);
             this.chkTest.Name = "chkTest";
             this.chkTest.Size = new System.Drawing.Size(115, 29);
             this.chkTest.TabIndex = 11;
@@ -288,9 +331,9 @@
             // frontImageSaved
             // 
             this.frontImageSaved.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.frontImageSaved.Location = new System.Drawing.Point(4, 442);
+            this.frontImageSaved.Location = new System.Drawing.Point(4, 624);
             this.frontImageSaved.Name = "frontImageSaved";
-            this.frontImageSaved.Size = new System.Drawing.Size(400, 400);
+            this.frontImageSaved.Size = new System.Drawing.Size(600, 600);
             this.frontImageSaved.TabIndex = 12;
             this.frontImageSaved.TabStop = false;
             // 
@@ -306,16 +349,16 @@
             this.panel2.Controls.Add(this.frontImageSaved);
             this.panel2.Location = new System.Drawing.Point(12, 44);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1052, 1203);
+            this.panel2.Size = new System.Drawing.Size(1364, 1243);
             this.panel2.TabIndex = 13;
             // 
             // rearCameraStream
             // 
             this.rearCameraStream.BackColor = System.Drawing.Color.Gainsboro;
-            this.rearCameraStream.Location = new System.Drawing.Point(439, 4);
+            this.rearCameraStream.Location = new System.Drawing.Point(650, 4);
             this.rearCameraStream.Margin = new System.Windows.Forms.Padding(4);
             this.rearCameraStream.Name = "rearCameraStream";
-            this.rearCameraStream.Size = new System.Drawing.Size(400, 400);
+            this.rearCameraStream.Size = new System.Drawing.Size(600, 600);
             this.rearCameraStream.TabIndex = 14;
             this.rearCameraStream.StreamStarted += new System.EventHandler(this.rearCameraStream_StreamStarted);
             this.rearCameraStream.StreamStopped += new System.EventHandler(this.rearCameraStream_StreamStopped);
@@ -324,9 +367,9 @@
             // rearImageSaved
             // 
             this.rearImageSaved.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.rearImageSaved.Location = new System.Drawing.Point(439, 442);
+            this.rearImageSaved.Location = new System.Drawing.Point(650, 624);
             this.rearImageSaved.Name = "rearImageSaved";
-            this.rearImageSaved.Size = new System.Drawing.Size(400, 400);
+            this.rearImageSaved.Size = new System.Drawing.Size(600, 600);
             this.rearImageSaved.TabIndex = 13;
             this.rearImageSaved.TabStop = false;
             // 
@@ -334,40 +377,18 @@
             // 
             this.lblRearCamStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblRearCamStatus.AutoSize = true;
-            this.lblRearCamStatus.Location = new System.Drawing.Point(235, 1300);
+            this.lblRearCamStatus.Location = new System.Drawing.Point(235, 1340);
             this.lblRearCamStatus.Margin = new System.Windows.Forms.Padding(4);
             this.lblRearCamStatus.Name = "lblRearCamStatus";
             this.lblRearCamStatus.Size = new System.Drawing.Size(73, 25);
             this.lblRearCamStatus.TabIndex = 14;
             this.lblRearCamStatus.Text = "Status";
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.Red;
-            this.label4.Location = new System.Drawing.Point(3, 760);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(173, 46);
-            this.label4.TabIndex = 23;
-            this.label4.Text = "Biển số:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.Red;
-            this.label5.Location = new System.Drawing.Point(182, 762);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(56, 44);
-            this.label5.TabIndex = 22;
-            this.label5.Text = "...";
-            // 
             // EmployeeManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1953, 1338);
+            this.ClientSize = new System.Drawing.Size(2265, 1378);
             this.Controls.Add(this.lblRearCamStatus);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.chkTest);
@@ -383,7 +404,9 @@
             this.Text = "Parking Management";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
+            this.Shown += new System.EventHandler(this.EmployeeManagement_Shown);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
+            this.Resize += new System.EventHandler(this.EmployeeManagement_Resize);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -424,7 +447,9 @@
         private WebEye.Controls.WinForms.StreamPlayerControl.StreamPlayerControl rearCameraStream;
         private System.Windows.Forms.Label lblRearCamStatus;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblMotorNum;
+        private System.Windows.Forms.ToolStripMenuItem dataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem employeesMotobikeToolStripMenuItem;
     }
 }
 

@@ -6,11 +6,13 @@ using MyDictionary = System.Collections.Generic.Dictionary<string, string>;
 namespace EmployeeManagement
 {
     using EmployeeManagementApplicationSetting;
+    using ParkingManagement;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Data;
     using System.Drawing;
     using System.IO;
+    using System.Timers;
     using WebEye.Controls.WinForms.StreamPlayerControl;
 
     public partial class EmployeeManagement : Form
@@ -37,6 +39,13 @@ namespace EmployeeManagement
         //Prevent double scan in the very short time
         private Dictionary<string, DateTime> scaningState;
         private double minTimeBetweenScanSteps = 3600; //second
+
+        private double screenTimeoutValue = 60;
+
+        // Enabled in Play button, auto retry in connection failed
+        private bool cameraStatus = true;
+
+        private static System.Timers.Timer backgroundTimer;
 
         public EmployeeManagement()
         {
@@ -72,16 +81,22 @@ namespace EmployeeManagement
 
             //Background Image
             frontImageSaved.SizeMode = PictureBoxSizeMode.StretchImage;
-            frontImageSaved.Visible = true;
-            try
-            {
-                backImage = new Bitmap(backgroundImageDir);
-                frontImageSaved.Image = (Image)backImage;
-            }
-            catch
-            {
-                Console.WriteLine("Background image not found: " + backgroundImageDir);
-            }
+            rearImageSaved.SizeMode = PictureBoxSizeMode.StretchImage;
+            //frontImageSaved.Visible = true;
+            //try
+            //{
+            //    backImage = new Bitmap(backgroundImageDir);
+            //    frontImageSaved.Image = (Image)backImage;
+            //}
+            //catch
+            //{
+            //    Console.WriteLine("Background image not found: " + backgroundImageDir);
+            //}
+
+            //Setup background timer
+            backgroundTimer = new System.Timers.Timer(screenTimeoutValue*1000);
+            backgroundTimer.Elapsed += OnTimedEvent;
+            backgroundTimer.AutoReset = false;
         }
 
         void populateFormIntialValue(MyDictionary dict)
@@ -106,6 +121,10 @@ namespace EmployeeManagement
             {
                 minTimeBetweenScanSteps = Int32.Parse(dict["mintimescan"]);
             }
+            if (dict.ContainsKey("screentimeout") && dict["screentimeout"] != "")
+            {
+                screenTimeoutValue = Int32.Parse(dict["screentimeout"]);
+            }
         }
 
         void getValueFromSettingForm()
@@ -120,6 +139,7 @@ namespace EmployeeManagement
             connection = new MySqlConnection(connectionString);
             isDisplayTime = appSetting.isDisplayTime;
             minTimeBetweenScanSteps = appSetting.minTimeBetweenScanSteps;
+            screenTimeoutValue = appSetting.screenTimeoutValue;
 
             Console.WriteLine("Setting done");
         }
@@ -137,7 +157,7 @@ namespace EmployeeManagement
                     _barcode.Clear();
             }
 
-            if(manualMode && e.KeyChar == Convert.ToChar(Keys.Back))
+            if (manualMode && e.KeyChar == Convert.ToChar(Keys.Back))
             {
                 if (_barcode.Count > 0)
                 {
@@ -163,10 +183,11 @@ namespace EmployeeManagement
 
                     if (_barcode.Count == 1)
                     {
-                        lblName.Text = txtRole.Text = lblTime.Text = lblCheckinStatus.Text = "";
+                        lblName.Text = txtRole.Text = lblTime.Text = lblCheckinStatus.Text = lblMotorNum.Text = "";
                         picBoxEmployee.Image = null;
                     }
                 }
+                clearImageWindow();
             }
             else if (e.KeyChar == 13 && _barcode.Count > 0) //MAIN EVENT
             {
@@ -187,7 +208,7 @@ namespace EmployeeManagement
                 // Employee exist or not
                 if (!isEmployeeExist(empId))
                 {
-                    lblId.Text = lblName.Text = txtRole.Text = lblTime.Text = lblCheckinStatus.Text = "";
+                    lblId.Text = lblName.Text = txtRole.Text = lblTime.Text = lblCheckinStatus.Text = lblMotorNum.Text = "";
                     picBoxEmployee.Image = null;
                     Console.WriteLine("Employee does not exist: " + empId);
                     return;
@@ -220,18 +241,61 @@ namespace EmployeeManagement
 
 
                 // Actual event to update GUI and DB
-                string absImageDir = captureCamera();
+                string absFrontImageDir = captureCamera(1);
+                string absRearImageDir = captureCamera(2);
                 try
                 {
-                    updateTimeInOut(empId, absImageDir);
+                    string date = DateTime.Now.ToString("yyyy-MM-dd");
+                    string frontImageCheckIn = "";
+                    string rearImageCheckIn = "";
+                    bool rowExist = isParkingRowExist(empId, date, out frontImageCheckIn, out rearImageCheckIn);
+                    Console.WriteLine(rowExist);
+                    Console.WriteLine(frontImageCheckIn + "_" + rearImageCheckIn);
+                    updateTimeInOut(empId, absFrontImageDir, absRearImageDir, rowExist);
                     displayNameAndImage(empId);
                     displayTime();
+                    if (!rowExist) //checkin
+                    {
+                        displayImageWindow(absFrontImageDir, absRearImageDir);
+                    }
+                    else //checkout
+                    {
+                        displayImageWindow(rearImageCheckIn, frontImageCheckIn);
+                    }
+
+                    // Timer to clean up screen
+                    if (!backgroundTimer.Enabled)
+                    {
+                        backgroundTimer.Stop();
+                    }
+                    backgroundTimer.Interval = screenTimeoutValue * 1000;
+                    
+                    backgroundTimer.Start();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Connection ERROR: "+ex.Message, "Lost database connection!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Connection ERROR: " + ex.Message, "Lost database connection!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            Console.WriteLine("The Elapsed event was raised at {0:HH:mm:ss.fff}",
+                              e.SignalTime);
+            
+            this.Invoke((Action)this.screenSweeper);
+        }
+
+        private void screenSweeper()
+        {
+            clearImageWindow();
+            if (!(manualMode && lblId.Text.Length < 6))
+            {
+                lblId.Text = "";
+            }
+            lblName.Text = txtRole.Text = lblTime.Text = lblCheckinStatus.Text = lblMotorNum.Text = "";
+            picBoxEmployee.Image = null;
         }
 
         void displayTime()
@@ -241,28 +305,72 @@ namespace EmployeeManagement
             lblTime.Text = timeStamp;
         }
 
-        string captureCamera()
+        void clearImageWindow()
         {
+            frontImageSaved.Image = null;
+            rearImageSaved.Image = null;
+        }
+
+        void displayImageWindow(string frontImageCheckIn, string rearImageCheckIn)
+        {
+            if (frontImageCheckIn != "")
+            {
+                var front = new Bitmap(frontImageCheckIn);
+                frontImageSaved.Image = (Image)front;
+            }
+            else
+            {
+                frontImageSaved.Image = null;
+            }
+            if (rearImageCheckIn != "")
+            {
+                var rear = new Bitmap(rearImageCheckIn);
+                rearImageSaved.Image = (Image)rear;
+            }
+            else
+            {
+                rearImageSaved.Image = null;
+            }
+        }
+        string captureCamera(int camIndex)
+        {
+            string now = DateTime.Now.ToString("-yyyy-MM-ddTHH-mm-ss");
+            string filename = "";
             try
             {
-                string now = DateTime.Now.ToString("-yyyy-MM-ddTHH-mm-ss");
-                string filename = imageDir +"\\"+ lblId.Text + now + ".bmp";
-                Console.WriteLine(filename);
-                frontCameraStream.GetCurrentFrame().Save(filename);
-                return filename;
+                switch(camIndex)
+                {
+                    case 1: //front
+                        filename = imageDir + "\\" + "Front-"+lblId.Text + now + ".bmp";
+                        Console.WriteLine(filename);
+                        frontCameraStream.GetCurrentFrame().Save(filename);
+                        filename = filename.Replace("\\", "\\\\");
+                        return filename;
+                        break;
+                    case 2: //rear
+                        filename = imageDir + "\\" + "Rear-"+lblId.Text + now + ".bmp";
+                        Console.WriteLine(filename);
+                        rearCameraStream.GetCurrentFrame().Save(filename);
+                        filename = filename.Replace("\\", "\\\\");
+                        return filename;
+                        break;
+                    default:
+                        break;
+                }
+                
             }
             catch { }
             return "";
         }
 
-        private void displayNameAndImage(string id)
+        private void displayNameAndImage(string empId)
         {
             try
             {
                 if (this.OpenConnection() == true)
                 {
                     MySqlDataReader reader = null;
-                    string selectCmd = "select last_name,first_name,bophan_id from employees where emp_no='" + id + "';";
+                    string selectCmd = "select last_name,first_name,bophan_id from employees where emp_no='" + empId + "';";
 
                     MySqlCommand command = new MySqlCommand(selectCmd, connection);
                     reader = command.ExecuteReader();
@@ -288,13 +396,11 @@ namespace EmployeeManagement
                     CloseConnection();
                     lblName.Text = name;
 
-
+                    // Department
                     this.OpenConnection();
                     selectCmd = "select name from bophan where id='" + bo_phan_id + "';";
                     MySqlCommand command2 = new MySqlCommand(selectCmd, connection);
                     MySqlDataReader reader2 = command2.ExecuteReader();
-
-
                     if (reader2.HasRows)
                     {
                         while (reader2.Read())
@@ -302,8 +408,27 @@ namespace EmployeeManagement
                             bo_phan = reader2.GetString(0);
                         }
                     }
-
                     txtRole.Text = bo_phan;
+                    CloseConnection();
+
+                    // Motorbike number
+                    string motorNum = "";
+                    this.OpenConnection();
+                    selectCmd = "select num from bienso where emp_no='" + empId + "';";
+                    MySqlCommand command3 = new MySqlCommand(selectCmd, connection);
+                    MySqlDataReader reader3 = command3.ExecuteReader();
+                    if (reader3.HasRows)
+                    {
+                        while (reader3.Read())
+                        {
+                            if (!reader3.IsDBNull(0))
+                            {
+                                motorNum = reader3.GetString(0);
+                            }
+                            
+                        }
+                    }
+                    lblMotorNum.Text = motorNum;
                     CloseConnection();
                 }
             }
@@ -314,7 +439,7 @@ namespace EmployeeManagement
             CloseConnection();
             if (lblName.Text != "")
             {
-                updateImage(id);
+                updateEmployeeImage(empId);
             }
             else
             {
@@ -323,7 +448,7 @@ namespace EmployeeManagement
 
         }
 
-        string imageFileSearchById(string dir, string id)
+        string employeeImageFileSearchById(string dir, string id)
         {
             string fileName = "";
             try
@@ -339,7 +464,7 @@ namespace EmployeeManagement
                             break;
                         }
                     }
-                    imageFileSearchById(subDir, id);
+                    employeeImageFileSearchById(subDir, id);
                 }
             }
             catch (System.Exception e)
@@ -349,10 +474,10 @@ namespace EmployeeManagement
             return fileName;
         }
 
-        private void updateImage(string id)
+        private void updateEmployeeImage(string id)
         {
             string baseDir = Directory.GetCurrentDirectory();
-            string absImageFile = imageFileSearchById(baseDir, id);
+            string absImageFile = employeeImageFileSearchById(baseDir, id);
             if(absImageFile == "")
             {
                 picBoxEmployee.Image = null;
@@ -373,20 +498,31 @@ namespace EmployeeManagement
             }
         }
 
-        private bool isRowExist(string id, string date)
+        private bool isParkingRowExist(string id, string date, out string frontIn, out string rearIn)
         {
+            frontIn = "";
+            rearIn = "";
             try
             {
                 if (this.OpenConnection() == true)
                 {
                     MySqlDataReader reader = null;
-                    string selectCmd = "select emp_no from checkin where emp_no='"+id+"' and date='" + date + "' and checkout is NULL;";
+                    string selectCmd = "select emp_no,front_in,rear_in from parking where emp_no='" + id+"' and date='" + date + "' and checkout is NULL;";
 
                     MySqlCommand command = new MySqlCommand(selectCmd, connection);
                     reader = command.ExecuteReader();
 
                     if (reader.HasRows)
                     {
+                        while (reader.Read())
+                        {
+                            try
+                            {
+                                frontIn = reader.GetString(1);
+                                rearIn = reader.GetString(2);
+                            }
+                            catch { }
+                        }
                         CloseConnection();
                         return true;
                     }
@@ -437,12 +573,11 @@ namespace EmployeeManagement
             return false;
         }
 
-        private void updateTimeInOut(string id, string imagePath2DB)
+        private void updateTimeInOut(string id, string absFrontImageDir, string absRearImageDir, bool rowExist)
         {
             DateTime now = DateTime.Now;
             string timeStamp = now.ToString("yyyy-MM-dd HH:mm:ss");
             string date = now.ToString("yyyy-MM-dd");
-            bool rowExist = isRowExist(id, date);
 
             if (this.OpenConnection() == true)
             {
@@ -451,28 +586,18 @@ namespace EmployeeManagement
                 if (rowExist)
                 {
                     // Check out
-                    if (imagePath2DB == "")
-                    {
-                        cmd.CommandText = "update checkin set checkout=CURRENT_TIMESTAMP where emp_no='" + id + "' and date='" + date + "' and checkout is NULL;";
-                    }
-                    else
-                    {
-                        cmd.CommandText = "update checkin set checkout=CURRENT_TIMESTAMP,pic2='" + imagePath2DB + "' where emp_no='" + id + "' and date='" + date + "' and checkout is NULL;";
-                    }
+                    cmd.CommandText = "update parking set checkout=CURRENT_TIMESTAMP,";
+                    cmd.CommandText += "front_out='" + absFrontImageDir + "',";
+                    cmd.CommandText += "rear_out='" + absRearImageDir + "' ";
+                    cmd.CommandText += "where emp_no='" + id + "' and date='" + date + "' and checkout is NULL;";
                     lblCheckinStatus.Text = "CẢM ƠN";
                     Console.WriteLine("Line exist: " + cmd.CommandText);
                 }
                 else
                 {
                     //Check in
-                    if (imagePath2DB == "")
-                    {
-                        cmd.CommandText = "insert into checkin (`emp_no`, `date`, `checkin`) values ( '" + id + "', '" + date + "', '" + timeStamp + "');";
-                    }
-                    else
-                    {
-                        cmd.CommandText = "insert into checkin (`emp_no`, `date`, `checkin`, `pic1`) values ( '" + id + "', '" + date + "', '" + timeStamp + "', '" + imagePath2DB + "' );";
-                    }                   
+                    cmd.CommandText = "insert into parking (`emp_no`, `date`, `checkin`, `front_in`, `rear_in`) ";
+                    cmd.CommandText += "values ( '" + id + "', '" + date + "', '" + timeStamp + "', '" + absFrontImageDir + "', '" + absRearImageDir + "' );";              
                     lblCheckinStatus.Text = "XIN CHÀO";
                     Console.WriteLine("Line NOT exist: " + cmd.CommandText);
                 }
@@ -494,6 +619,7 @@ namespace EmployeeManagement
 
         private void playButton_Click(object sender, EventArgs e)
         {
+            cameraStatus = true;
             playCamera();
         }
 
@@ -529,7 +655,7 @@ namespace EmployeeManagement
             {
                 rearCameraStream.Stop();
             }
-            frontImageSaved.Visible = true;
+            cameraStatus = false;
         }
 
         private void UpdateButtons()
@@ -544,7 +670,6 @@ namespace EmployeeManagement
             UpdateButtons();
 
             lblFrontCamStatus.Text = "Playing";
-            frontImageSaved.Visible = false;
         }
 
         private void FrontCamHandleStreamFailedEvent(object sender, StreamFailedEventArgs e)
@@ -552,7 +677,12 @@ namespace EmployeeManagement
             UpdateButtons();
 
             lblFrontCamStatus.Text = "Can not connect to front camera";
-            frontImageSaved.Visible = true;
+
+            if (cameraStatus)
+            {
+                playCamera();
+                Console.WriteLine("Stream failed event, trying to reconnect");
+            }
 
             //MessageBox.Show("Can not connect to camera!", "Stream Player Demo", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
@@ -560,6 +690,12 @@ namespace EmployeeManagement
         private void FrontCamHandleStreamStoppedEvent(object sender, EventArgs e)
         {
             UpdateButtons();
+
+            if (cameraStatus)
+            {
+                playCamera();
+                Console.WriteLine("Stream failed event, trying to reconnect");
+            }
 
             lblFrontCamStatus.Text = "Stopped";
         }
@@ -569,7 +705,6 @@ namespace EmployeeManagement
             UpdateButtons();
 
             lblRearCamStatus.Text = "Playing";
-            frontImageSaved.Visible = false;
         }
 
         private void rearCameraStream_StreamFailed(object sender, StreamFailedEventArgs e)
@@ -577,12 +712,23 @@ namespace EmployeeManagement
             UpdateButtons();
 
             lblRearCamStatus.Text = "Can not connect to rear camera";
-            frontImageSaved.Visible = true;
+            if (cameraStatus)
+            {
+                playCamera();
+                Console.WriteLine("Stream failed event, trying to reconnect");
+            }
         }
 
         private void rearCameraStream_StreamStopped(object sender, EventArgs e)
         {
             UpdateButtons();
+
+            if (cameraStatus)
+            {
+                playCamera();
+                Console.WriteLine("Stream failed event, trying to reconnect");
+            }
+
             lblRearCamStatus.Text = "Stopped";
         }
 
@@ -627,6 +773,41 @@ namespace EmployeeManagement
             manualMode = chkTest.Checked;
         }
 
+        private void employeesMotobikeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
+            var appSetEmployeesData = new EmployeesData(connectionString);
+            appSetEmployeesData.ShowDialog();
+
+            Console.WriteLine("DATA done");
+
+        }
+
+        private void EmployeeManagement_Shown(object sender, EventArgs e)
+        {
+            this.ActiveControl = null;
+        }
+
+        private void EmployeeManagement_Resize(object sender, EventArgs e)
+        {
+            this.ActiveControl = null;
+        }
+
+        private void _stopButton_Enter(object sender, EventArgs e)
+        {
+            this.ActiveControl = null;
+        }
+
+        private void LabelMotorNumber_Click(object sender, EventArgs e)
+        {
+            var appSetEmployeesData = new EmployeesData(lblId.Text, connectionString);
+            appSetEmployeesData.ShowDialog();
+            if (lblId.Text != "" && lblName.Text != "" && lblId.Text != "..." && lblName.Text !="...")
+            {
+                lblMotorNum.Text = appSetEmployeesData.motorNumToMainForm;
+            }
+
+            Console.WriteLine("DATA done");
+        }
     }
 }

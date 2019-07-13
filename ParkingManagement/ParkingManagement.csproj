@@ -108,6 +108,12 @@
     </Compile>
     <Compile Include="Configuration.cs" />
     <Compile Include="DBConnect.cs" />
+    <Compile Include="EmployeesData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EmployeesData.Designer.cs">
+      <DependentUpon>EmployeesData.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExportData.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -124,6 +130,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AppSetting.resx">
       <DependentUpon>AppSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EmployeesData.resx">
+      <DependentUpon>EmployeesData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ExportData.resx">
       <DependentUpon>ExportData.cs</DependentUpon>

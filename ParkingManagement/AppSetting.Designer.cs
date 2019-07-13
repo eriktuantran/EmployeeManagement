@@ -90,11 +90,15 @@
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.label27 = new System.Windows.Forms.Label();
             this.textBox7 = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.screenTimeout = new System.Windows.Forms.NumericUpDown();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.minTimeScan)).BeginInit();
             this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.screenTimeout)).BeginInit();
             this.SuspendLayout();
             // 
             // txtUrl
@@ -465,6 +469,9 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.label20);
+            this.panel3.Controls.Add(this.label28);
+            this.panel3.Controls.Add(this.screenTimeout);
             this.panel3.Controls.Add(this.label18);
             this.panel3.Controls.Add(this.label14);
             this.panel3.Controls.Add(this.minTimeScan);
@@ -472,13 +479,13 @@
             this.panel3.Controls.Add(this.chkDisplayTime);
             this.panel3.Location = new System.Drawing.Point(870, 458);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(550, 183);
+            this.panel3.Size = new System.Drawing.Size(550, 209);
             this.panel3.TabIndex = 25;
             // 
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(457, 127);
+            this.label18.Location = new System.Drawing.Point(457, 96);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(82, 25);
             this.label18.TabIndex = 28;
@@ -487,7 +494,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(23, 127);
+            this.label14.Location = new System.Drawing.Point(23, 96);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(307, 25);
             this.label14.TabIndex = 27;
@@ -500,14 +507,14 @@
             0,
             0,
             0});
-            this.minTimeScan.Location = new System.Drawing.Point(341, 124);
+            this.minTimeScan.Location = new System.Drawing.Point(341, 93);
             this.minTimeScan.Maximum = new decimal(new int[] {
             7200,
             0,
             0,
             0});
             this.minTimeScan.Minimum = new decimal(new int[] {
-            10,
+            5,
             0,
             0,
             0});
@@ -699,6 +706,51 @@
             this.textBox7.TabIndex = 1;
             this.textBox7.Text = "127.0.0.1";
             // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(457, 151);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(82, 25);
+            this.label20.TabIndex = 31;
+            this.label20.Text = "second";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(168, 151);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(162, 25);
+            this.label28.TabIndex = 30;
+            this.label28.Text = "Screen timeout:";
+            // 
+            // screenTimeout
+            // 
+            this.screenTimeout.Increment = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            this.screenTimeout.Location = new System.Drawing.Point(341, 148);
+            this.screenTimeout.Maximum = new decimal(new int[] {
+            3600,
+            0,
+            0,
+            0});
+            this.screenTimeout.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.screenTimeout.Name = "screenTimeout";
+            this.screenTimeout.Size = new System.Drawing.Size(106, 31);
+            this.screenTimeout.TabIndex = 29;
+            this.screenTimeout.Value = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            // 
             // AppSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -725,6 +777,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.minTimeScan)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.screenTimeout)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -793,5 +846,8 @@
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.NumericUpDown screenTimeout;
     }
 }

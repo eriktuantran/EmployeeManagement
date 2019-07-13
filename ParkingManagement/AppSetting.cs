@@ -21,6 +21,7 @@ namespace EmployeeManagementApplicationSetting
         public string connectionString;
         public bool isDisplayTime = false;
         public int minTimeBetweenScanSteps = 3600; //second
+        public int screenTimeoutValue = 60; //second
 
         //DB
         private MySqlConnection connection;
@@ -125,6 +126,15 @@ namespace EmployeeManagementApplicationSetting
                 }
                 minTimeScan.Value = readValue;
             }
+            if (readConfigDict.ContainsKey("screentimeout") && readConfigDict["screentimeout"] != "")
+            {
+                int readValue = Int32.Parse(readConfigDict["screentimeout"]);
+                if (readValue < screenTimeout.Minimum || readValue > screenTimeout.Maximum)
+                {
+                    readValue = 60;
+                }
+                screenTimeout.Value = readValue;
+            }
         }
 
         void updateDictionaryEvent()
@@ -146,6 +156,7 @@ namespace EmployeeManagementApplicationSetting
 
             globalDictionary["displaytime"] = chkDisplayTime.Checked.ToString();
             globalDictionary["mintimescan"] = minTimeScan.Value.ToString();
+            globalDictionary["screentimeout"] = screenTimeout.Value.ToString();
         }
 
         void intialValue()
@@ -241,6 +252,7 @@ namespace EmployeeManagementApplicationSetting
             imageDir = txtImageDir.Text;
             isDisplayTime = chkDisplayTime.Checked;
             minTimeBetweenScanSteps = Decimal.ToInt32(minTimeScan.Value);
+            screenTimeoutValue = Decimal.ToInt32(screenTimeout.Value);
             updateConnectionString();
 
             updateDictionaryEvent();
