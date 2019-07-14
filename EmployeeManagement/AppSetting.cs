@@ -16,9 +16,9 @@ namespace EmployeeManagementApplicationSetting
 {
     public partial class AppSetting : Form
     {
-        public string cameraUrl;
-        public string imageDir;
-        public string connectionString;
+        public string cameraUrl = "";
+        public string imageDir = "";
+        public string connectionString = "";
         public bool isDisplayTime = false;
         public int minTimeBetweenScanSteps = 3600; //second
 
@@ -41,7 +41,8 @@ namespace EmployeeManagementApplicationSetting
         //    "rtsp://192.168.1.117:554/user=admin_password=tlJwpbo6_channel=1_stream=0.sdp?real_stream"
         //    };
 
-
+        //Button OK clicked
+        public bool isOKButtonClicked = false;
 
         public AppSetting()
         {
@@ -246,7 +247,7 @@ namespace EmployeeManagementApplicationSetting
             updateDictionaryEvent();
 
             config.saveDictionaryToFile(globalDictionary);
-
+            isOKButtonClicked = true;
             this.Close();
         }
 

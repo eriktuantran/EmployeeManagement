@@ -117,14 +117,20 @@ namespace EmployeeManagement
             appSetting.ShowDialog();
 
             //Collect Data
-            cameraAddress = appSetting.cameraUrl;
-            imageDir = appSetting.imageDir;
-            connectionString = appSetting.connectionString;
-            connection = new MySqlConnection(connectionString);
-            isDisplayTime = appSetting.isDisplayTime;
-            minTimeBetweenScanSteps = appSetting.minTimeBetweenScanSteps;
-
-            Console.WriteLine("Setting done");
+            if (appSetting.isOKButtonClicked)
+            {
+                cameraAddress = appSetting.cameraUrl;
+                imageDir = appSetting.imageDir;
+                connectionString = appSetting.connectionString;
+                connection = new MySqlConnection(connectionString);
+                isDisplayTime = appSetting.isDisplayTime;
+                minTimeBetweenScanSteps = appSetting.minTimeBetweenScanSteps;
+                Console.WriteLine("Setting done");
+            }
+            else
+            {
+                Console.WriteLine("Setting Terminated");
+            }
         }
 
         DateTime _lastKeystroke = new DateTime(0);
