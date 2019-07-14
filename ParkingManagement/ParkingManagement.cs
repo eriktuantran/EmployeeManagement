@@ -25,9 +25,8 @@ namespace EmployeeManagement
         //Entering the ID manual
         private bool manualMode = false;
 
-        private string cameraAddress = "";
-
-        private string configFileDir = "";
+        private string frontCameraAddress = "";
+        private string rearCameraAddress = "";
 
         private bool isDisplayTime = false;
 
@@ -62,7 +61,7 @@ namespace EmployeeManagement
             populateFormIntialValue(dictRead);
 
             // Config file not exist
-            if (cameraAddress == "" || connectionString == "" || imageDir == "")
+            if (frontCameraAddress == "" || rearCameraAddress == "" || connectionString == "" || imageDir == "")
             {
                 getValueFromSettingForm();
             }
@@ -101,9 +100,13 @@ namespace EmployeeManagement
 
         void populateFormIntialValue(MyDictionary dict)
         {
-            if (dict.ContainsKey("url") && dict["url"] != "")
+            if (dict.ContainsKey("urlfront") && dict["urlfront"] != "")
             {
-                cameraAddress = dict["url"];
+                frontCameraAddress = dict["urlfront"];
+            }
+            if (dict.ContainsKey("urlrear") && dict["urlrear"] != "")
+            {
+                rearCameraAddress = dict["urlrear"];
             }
             if (dict.ContainsKey("connectstring") && dict["connectstring"] != "")
             {
@@ -133,15 +136,22 @@ namespace EmployeeManagement
             appSetting.ShowDialog();
 
             //Collect Data
-            cameraAddress = appSetting.cameraUrl;
-            imageDir = appSetting.imageDir;
-            connectionString = appSetting.connectionString;
-            connection = new MySqlConnection(connectionString);
-            isDisplayTime = appSetting.isDisplayTime;
-            minTimeBetweenScanSteps = appSetting.minTimeBetweenScanSteps;
-            screenTimeoutValue = appSetting.screenTimeoutValue;
-
-            Console.WriteLine("Setting done");
+            if (appSetting.isOKButtonClicked)
+            {
+                frontCameraAddress = appSetting.cameraUrlFront;
+                rearCameraAddress = appSetting.cameraUrlRear;
+                imageDir = appSetting.imageDir;
+                connectionString = appSetting.connectionString;
+                connection = new MySqlConnection(connectionString);
+                isDisplayTime = appSetting.isDisplayTime;
+                minTimeBetweenScanSteps = appSetting.minTimeBetweenScanSteps;
+                screenTimeoutValue = appSetting.screenTimeoutValue;
+                Console.WriteLine("Setting done");
+            }
+            else
+            {
+                Console.WriteLine("Setting Terminated");
+            }
         }
 
         DateTime _lastKeystroke = new DateTime(0);
@@ -625,22 +635,33 @@ namespace EmployeeManagement
 
         void playCamera()
         {
-            if (cameraAddress == "" || imageDir == "")
+            if(imageDir == "")
             {
-                MessageBox.Show("Please select camera!");
+                MessageBox.Show("Please select directory to store image!");
+                return;
+            }
+            if (frontCameraAddress == "")
+            {
+                MessageBox.Show("Please setup front camera URL!");
+                return;
+            }
+            if (rearCameraAddress == "")
+            {
+                MessageBox.Show("Please setup rear camera URL!");
                 return;
             }
 
-            var uri = new Uri(cameraAddress);
+            var uriFront = new Uri(frontCameraAddress);
             if(frontCameraStream.IsPlaying == false)
             {
-                frontCameraStream.StartPlay(uri);
+                frontCameraStream.StartPlay(uriFront);
                 lblFrontCamStatus.Text = "Front connecting...";
             }
 
+            var uriRear = new Uri(rearCameraAddress);
             if (rearCameraStream.IsPlaying == false)
             {
-                rearCameraStream.StartPlay(uri);
+                rearCameraStream.StartPlay(uriRear);
                 lblRearCamStatus.Text = "Rear connecting...";
             }
         }

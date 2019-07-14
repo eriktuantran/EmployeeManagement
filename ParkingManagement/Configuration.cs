@@ -11,8 +11,8 @@ namespace EmployeeManagementApplicationSetting
 {
     class Configuration
     {
-        private string configFile = Directory.GetCurrentDirectory() + "\\config.txt";
-        private string configFileEncrypted = Directory.GetCurrentDirectory() + "\\config.bin";
+        private string configFile = Directory.GetCurrentDirectory() + "\\parkingconfig.txt";
+        private string configFileEncrypted = Directory.GetCurrentDirectory() + "\\parkingconfig.bin";
         private string key = "1234512345678976";
 
         public Configuration()

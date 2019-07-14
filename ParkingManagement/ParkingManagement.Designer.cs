@@ -80,10 +80,10 @@
             // _playButton
             // 
             this._playButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this._playButton.Location = new System.Drawing.Point(13, 1312);
+            this._playButton.Location = new System.Drawing.Point(13, 1324);
             this._playButton.Margin = new System.Windows.Forms.Padding(4);
             this._playButton.Name = "_playButton";
-            this._playButton.Size = new System.Drawing.Size(100, 46);
+            this._playButton.Size = new System.Drawing.Size(100, 43);
             this._playButton.TabIndex = 2;
             this._playButton.Text = "Play";
             this._playButton.UseVisualStyleBackColor = true;
@@ -93,10 +93,10 @@
             // 
             this._stopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this._stopButton.Enabled = false;
-            this._stopButton.Location = new System.Drawing.Point(121, 1313);
+            this._stopButton.Location = new System.Drawing.Point(121, 1324);
             this._stopButton.Margin = new System.Windows.Forms.Padding(4);
             this._stopButton.Name = "_stopButton";
-            this._stopButton.Size = new System.Drawing.Size(100, 46);
+            this._stopButton.Size = new System.Drawing.Size(100, 44);
             this._stopButton.TabIndex = 3;
             this._stopButton.Text = "Stop";
             this._stopButton.UseVisualStyleBackColor = true;
@@ -149,7 +149,7 @@
             // 
             this.lblFrontCamStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblFrontCamStatus.AutoSize = true;
-            this.lblFrontCamStatus.Location = new System.Drawing.Point(235, 1308);
+            this.lblFrontCamStatus.Location = new System.Drawing.Point(234, 1321);
             this.lblFrontCamStatus.Margin = new System.Windows.Forms.Padding(4);
             this.lblFrontCamStatus.Name = "lblFrontCamStatus";
             this.lblFrontCamStatus.Size = new System.Drawing.Size(73, 25);
@@ -186,7 +186,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(1420, 44);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(833, 1243);
+            this.panel1.Size = new System.Drawing.Size(833, 1263);
             this.panel1.TabIndex = 10;
             // 
             // label4
@@ -320,7 +320,7 @@
             this.chkTest.AutoSize = true;
             this.chkTest.Checked = true;
             this.chkTest.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkTest.Location = new System.Drawing.Point(2138, 1331);
+            this.chkTest.Location = new System.Drawing.Point(2138, 1336);
             this.chkTest.Name = "chkTest";
             this.chkTest.Size = new System.Drawing.Size(115, 29);
             this.chkTest.TabIndex = 11;
@@ -342,14 +342,13 @@
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.rearCameraStream);
             this.panel2.Controls.Add(this.rearImageSaved);
             this.panel2.Controls.Add(this.frontCameraStream);
             this.panel2.Controls.Add(this.frontImageSaved);
             this.panel2.Location = new System.Drawing.Point(12, 44);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1364, 1243);
+            this.panel2.Size = new System.Drawing.Size(1364, 1263);
             this.panel2.TabIndex = 13;
             // 
             // rearCameraStream
@@ -377,7 +376,7 @@
             // 
             this.lblRearCamStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblRearCamStatus.AutoSize = true;
-            this.lblRearCamStatus.Location = new System.Drawing.Point(235, 1340);
+            this.lblRearCamStatus.Location = new System.Drawing.Point(234, 1346);
             this.lblRearCamStatus.Margin = new System.Windows.Forms.Padding(4);
             this.lblRearCamStatus.Name = "lblRearCamStatus";
             this.lblRearCamStatus.Size = new System.Drawing.Size(73, 25);

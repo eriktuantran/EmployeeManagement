@@ -16,9 +16,10 @@ namespace EmployeeManagementApplicationSetting
 {
     public partial class AppSetting : Form
     {
-        public string cameraUrl;
-        public string imageDir;
-        public string connectionString;
+        public string cameraUrlFront = "";
+        public string cameraUrlRear = "";
+        public string imageDir = "";
+        public string connectionString = "";
         public bool isDisplayTime = false;
         public int minTimeBetweenScanSteps = 3600; //second
         public int screenTimeoutValue = 60; //second
@@ -42,7 +43,8 @@ namespace EmployeeManagementApplicationSetting
         //    "rtsp://192.168.1.117:554/user=admin_password=tlJwpbo6_channel=1_stream=0.sdp?real_stream"
         //    };
 
-
+        //Button OK clicked
+        public bool isOKButtonClicked = false;
 
         public AppSetting()
         {
@@ -63,30 +65,57 @@ namespace EmployeeManagementApplicationSetting
 
         void updateAllFormValueFromDictionary(MyDictionary readConfigDict)
         {
-            if (readConfigDict.ContainsKey("camip") &&  readConfigDict["camip"] != "")
+            if (readConfigDict.ContainsKey("camipfront") &&  readConfigDict["camipfront"] != "")
             {
-                txtIp.Text = readConfigDict["camip"];
+                txtIpFront.Text = readConfigDict["camipfront"];
             }
-            if (readConfigDict.ContainsKey("camport") && readConfigDict["camport"] != "")
+            if (readConfigDict.ContainsKey("camportfront") && readConfigDict["camportfront"] != "")
             {
-                txtPort.Text = readConfigDict["camport"];
+                txtPortFront.Text = readConfigDict["camportfront"];
             }
-            if (readConfigDict.ContainsKey("camuser") && readConfigDict["camuser"] != "")
+            if (readConfigDict.ContainsKey("camuserfront") && readConfigDict["camuserfront"] != "")
             {
-                txtUser.Text = readConfigDict["camuser"];
+                txtUserFront.Text = readConfigDict["camuserfront"];
             }
-            if (readConfigDict.ContainsKey("campass") && readConfigDict["campass"] != "")
+            if (readConfigDict.ContainsKey("campassfront") && readConfigDict["campassfront"] != "")
             {
-                txtPasswd.Text = readConfigDict["campass"];
+                txtPasswdFront.Text = readConfigDict["campassfront"];
             }
-            if (readConfigDict.ContainsKey("camindex") && readConfigDict["camindex"] != "")
+            if (readConfigDict.ContainsKey("camindexfront") && readConfigDict["camindexfront"] != "")
             {
-                cboxSuffix.SelectedIndex = Int32.Parse(readConfigDict["camindex"]);
+                cboxSuffixFront.SelectedIndex = Int32.Parse(readConfigDict["camindexfront"]);
             }
-            if (readConfigDict.ContainsKey("url") && readConfigDict["url"] != "")
+            if (readConfigDict.ContainsKey("urlfront") && readConfigDict["urlfront"] != "")
             {
-                txtUrl.Text = readConfigDict["url"];
+                txtUrlFront.Text = readConfigDict["urlfront"];
             }
+
+
+            if (readConfigDict.ContainsKey("camiprear") && readConfigDict["camiprear"] != "")
+            {
+                txtIpRear.Text = readConfigDict["camiprear"];
+            }
+            if (readConfigDict.ContainsKey("camportrear") && readConfigDict["camportrear"] != "")
+            {
+                txtPortRear.Text = readConfigDict["camportrear"];
+            }
+            if (readConfigDict.ContainsKey("camuserrear") && readConfigDict["camuserrear"] != "")
+            {
+                txtUserRear.Text = readConfigDict["camuserrear"];
+            }
+            if (readConfigDict.ContainsKey("campassrear") && readConfigDict["campassrear"] != "")
+            {
+                txtPasswdRear.Text = readConfigDict["campassrear"];
+            }
+            if (readConfigDict.ContainsKey("camindexrear") && readConfigDict["camindexrear"] != "")
+            {
+                cboxSuffixRear.SelectedIndex = Int32.Parse(readConfigDict["camindexrear"]);
+            }
+            if (readConfigDict.ContainsKey("urlrear") && readConfigDict["urlrear"] != "")
+            {
+                txtUrlRear.Text = readConfigDict["urlrear"];
+            }
+
             if (readConfigDict.ContainsKey("imagedir") && readConfigDict["imagedir"] != "")
             {
                 txtImageDir.Text = readConfigDict["imagedir"];
@@ -139,12 +168,20 @@ namespace EmployeeManagementApplicationSetting
 
         void updateDictionaryEvent()
         {
-            globalDictionary["camip"] = txtIp.Text;
-            globalDictionary["camport"] = txtPort.Text;
-            globalDictionary["camuser"] = txtUser.Text;
-            globalDictionary["campass"] = txtPasswd.Text;
-            globalDictionary["camindex"] = cboxSuffix.SelectedIndex.ToString();
-            globalDictionary["url"] = txtUrl.Text;
+            globalDictionary["camipfront"] = txtIpFront.Text;
+            globalDictionary["camportfront"] = txtPortFront.Text;
+            globalDictionary["camuserfront"] = txtUserFront.Text;
+            globalDictionary["campassfront"] = txtPasswdFront.Text;
+            globalDictionary["camindexfront"] = cboxSuffixFront.SelectedIndex.ToString();
+            globalDictionary["urlfront"] = txtUrlFront.Text;
+
+            globalDictionary["camiprear"] = txtIpRear.Text;
+            globalDictionary["camportrear"] = txtPortRear.Text;
+            globalDictionary["camuserrear"] = txtUserRear.Text;
+            globalDictionary["campassrear"] = txtPasswdRear.Text;
+            globalDictionary["camindexrear"] = cboxSuffixRear.SelectedIndex.ToString();
+            globalDictionary["urlrear"] = txtUrlRear.Text;
+
             globalDictionary["imagedir"] = txtImageDir.Text;
             globalDictionary["connectstring"] = this.connectionString;
 
@@ -174,27 +211,46 @@ namespace EmployeeManagementApplicationSetting
 
             foreach(string val in valueList )
             {
-                cboxSuffix.Items.Add(val);
+                cboxSuffixFront.Items.Add(val);
+                cboxSuffixRear.Items.Add(val);
             }
-            cboxSuffix.SelectedIndex = 1;
+            cboxSuffixFront.SelectedIndex = 1;
+            cboxSuffixRear.SelectedIndex = 1;
 
-            updateUrlEvent();
+            updateFrontUrlEvent();
+            updateRearUrlEvent();
         }
 
-        void updateUrlEvent()
+        void updateFrontUrlEvent()
         {
-            string ip       = txtIp.Text.Trim();
-            string port     = txtPort.Text.Trim();
-            string user     = txtUser.Text.Trim();
-            string pass     = txtPasswd.Text.Trim();
-            string suffix = cboxSuffix.Text + txtAddtionalSuffix.Text.Trim();
+            string ip       = txtIpFront.Text.Trim();
+            string port     = txtPortFront.Text.Trim();
+            string user     = txtUserFront.Text.Trim();
+            string pass     = txtPasswdFront.Text.Trim();
+            string suffix = cboxSuffixFront.Text + txtAddtionalSuffixFront.Text.Trim();
 
-            txtUrl.Text = "rtsp://";
+            txtUrlFront.Text = "rtsp://";
             if (user != "" && pass != "")
             {
-                txtUrl.Text += user + ":" + pass + "@";
+                txtUrlFront.Text += user + ":" + pass + "@";
             }
-            txtUrl.Text += ip + ":" + port + "/" + suffix;
+            txtUrlFront.Text += ip + ":" + port + "/" + suffix;
+        }
+
+        void updateRearUrlEvent()
+        {
+            string ip = txtIpRear.Text.Trim();
+            string port = txtPortRear.Text.Trim();
+            string user = txtUserRear.Text.Trim();
+            string pass = txtPasswdRear.Text.Trim();
+            string suffix = cboxSuffixRear.Text + txtAddtionalSuffixRear.Text.Trim();
+
+            txtUrlRear.Text = "rtsp://";
+            if (user != "" && pass != "")
+            {
+                txtUrlRear.Text += user + ":" + pass + "@";
+            }
+            txtUrlRear.Text += ip + ":" + port + "/" + suffix;
         }
 
 
@@ -243,12 +299,13 @@ namespace EmployeeManagementApplicationSetting
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if(txtUrl.Text == "" || txtImageDir.Text == "")
+            if(txtUrlFront.Text.Trim() == "" || txtUrlRear.Text.Trim() == "" || txtImageDir.Text.Trim() == "")
             {
                 MessageBox.Show("Please fill in the empty fields!");
                 return;
             }
-            cameraUrl = txtUrl.Text;
+            cameraUrlFront = txtUrlFront.Text;
+            cameraUrlRear = txtUrlRear.Text;
             imageDir = txtImageDir.Text;
             isDisplayTime = chkDisplayTime.Checked;
             minTimeBetweenScanSteps = Decimal.ToInt32(minTimeScan.Value);
@@ -259,6 +316,7 @@ namespace EmployeeManagementApplicationSetting
 
             config.saveDictionaryToFile(globalDictionary);
 
+            isOKButtonClicked = true;
             this.Close();
         }
 
@@ -279,13 +337,13 @@ namespace EmployeeManagementApplicationSetting
 
         private void cboxSuffix_SelectedIndexChanged(object sender, EventArgs e)
         {
-            updateUrlEvent();
+            updateFrontUrlEvent();
             updateDictionaryEvent();
         }
 
         private void txtIp_TextChanged(object sender, EventArgs e)
         {
-            updateUrlEvent();
+            updateFrontUrlEvent();
             updateDictionaryEvent();
         }
 
@@ -373,7 +431,7 @@ namespace EmployeeManagementApplicationSetting
             updateConnectionString();
         }
 
-        private void btnCamSelect_Click(object sender, EventArgs e)
+        private void btnFrontCamSelect_Click(object sender, EventArgs e)
         {
             var result = myCameraUrlBuilder.ShowDialog();
 
@@ -385,13 +443,39 @@ namespace EmployeeManagementApplicationSetting
                 if (match.Success)
                 {
                     string _ip = match.Groups[1].ToString();
-                    txtIp.Text = _ip;
+                    txtIpFront.Text = _ip;
                     //txtPort.Text = match.Groups[2].ToString(); //port is not changed: 554
                     foreach (string url in cameralist)
                     {
                         if (url.Contains(_ip))
                         {
-                            txtUrl.Text = url;
+                            txtUrlFront.Text = url;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void btnRearCamSelect_Click(object sender, EventArgs e)
+        {
+            var result = myCameraUrlBuilder.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                string resultStr = myCameraUrlBuilder.CameraURL;
+                Regex ip = new Regex(@"\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}):(\d+).*\b");
+                Match match = ip.Match(resultStr);
+                if (match.Success)
+                {
+                    string _ip = match.Groups[1].ToString();
+                    txtIpFront.Text = _ip;
+                    //txtPort.Text = match.Groups[2].ToString(); //port is not changed: 554
+                    foreach (string url in cameralist)
+                    {
+                        if (url.Contains(_ip))
+                        {
+                            txtUrlRear.Text = url;
                             break;
                         }
                     }
@@ -404,5 +488,24 @@ namespace EmployeeManagementApplicationSetting
             globalDictionary["displaytime"] = chkDisplayTime.Checked.ToString();
             Console.WriteLine(globalDictionary["displaytime"]);
         }
+
+        private void txtIPRear_TextChanged(object sender, EventArgs e)
+        {
+            updateRearUrlEvent();
+            updateDictionaryEvent();
+        }
+
+        private void cboxSuffixRear_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            updateRearUrlEvent();
+            updateDictionaryEvent();
+        }
+
+        private void txtUrlRear_TextChanged(object sender, EventArgs e)
+        {
+            updateDictionaryEvent();
+        }
+
+
     }
 }
