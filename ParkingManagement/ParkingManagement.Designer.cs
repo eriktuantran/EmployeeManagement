@@ -318,8 +318,6 @@
             // 
             this.chkTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chkTest.AutoSize = true;
-            this.chkTest.Checked = true;
-            this.chkTest.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkTest.Location = new System.Drawing.Point(2138, 1336);
             this.chkTest.Name = "chkTest";
             this.chkTest.Size = new System.Drawing.Size(115, 29);
