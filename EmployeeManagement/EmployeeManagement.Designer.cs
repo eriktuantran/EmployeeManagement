@@ -47,6 +47,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lblName = new System.Windows.Forms.Label();
             this.lblId = new System.Windows.Forms.Label();
+            this.txtConsole = new System.Windows.Forms.RichTextBox();
             this.chkTest = new System.Windows.Forms.CheckBox();
             this.backgroundImage = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
@@ -64,7 +65,7 @@
             this.streamPlayerControl1.Location = new System.Drawing.Point(13, 44);
             this.streamPlayerControl1.Margin = new System.Windows.Forms.Padding(4);
             this.streamPlayerControl1.Name = "streamPlayerControl1";
-            this.streamPlayerControl1.Size = new System.Drawing.Size(599, 1203);
+            this.streamPlayerControl1.Size = new System.Drawing.Size(599, 1336);
             this.streamPlayerControl1.TabIndex = 0;
             this.streamPlayerControl1.StreamStarted += new System.EventHandler(this.HandleStreamStartedEvent);
             this.streamPlayerControl1.StreamStopped += new System.EventHandler(this.HandleStreamStoppedEvent);
@@ -73,7 +74,7 @@
             // _playButton
             // 
             this._playButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this._playButton.Location = new System.Drawing.Point(13, 1279);
+            this._playButton.Location = new System.Drawing.Point(13, 1412);
             this._playButton.Margin = new System.Windows.Forms.Padding(4);
             this._playButton.Name = "_playButton";
             this._playButton.Size = new System.Drawing.Size(100, 46);
@@ -86,7 +87,7 @@
             // 
             this._stopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this._stopButton.Enabled = false;
-            this._stopButton.Location = new System.Drawing.Point(121, 1280);
+            this._stopButton.Location = new System.Drawing.Point(121, 1413);
             this._stopButton.Margin = new System.Windows.Forms.Padding(4);
             this._stopButton.Name = "_stopButton";
             this._stopButton.Size = new System.Drawing.Size(100, 46);
@@ -125,7 +126,7 @@
             // 
             this.lblStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(229, 1291);
+            this.lblStatus.Location = new System.Drawing.Point(229, 1424);
             this.lblStatus.Margin = new System.Windows.Forms.Padding(4);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(73, 25);
@@ -160,7 +161,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(648, 44);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(833, 1203);
+            this.panel1.Size = new System.Drawing.Size(833, 1336);
             this.panel1.TabIndex = 10;
             // 
             // lblCheckinStatus
@@ -264,11 +265,24 @@
             this.lblId.TabIndex = 10;
             this.lblId.Text = "...";
             // 
+            // txtConsole
+            // 
+            this.txtConsole.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtConsole.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtConsole.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtConsole.Location = new System.Drawing.Point(43, 1107);
+            this.txtConsole.Name = "txtConsole";
+            this.txtConsole.ReadOnly = true;
+            this.txtConsole.Size = new System.Drawing.Size(599, 171);
+            this.txtConsole.TabIndex = 22;
+            this.txtConsole.Text = "Thông tin kiểm lỗi:";
+            this.txtConsole.TextChanged += new System.EventHandler(this.txtConsole_TextChanged);
+            // 
             // chkTest
             // 
             this.chkTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chkTest.AutoSize = true;
-            this.chkTest.Location = new System.Drawing.Point(1366, 1291);
+            this.chkTest.Location = new System.Drawing.Point(1366, 1424);
             this.chkTest.Name = "chkTest";
             this.chkTest.Size = new System.Drawing.Size(115, 29);
             this.chkTest.TabIndex = 11;
@@ -283,7 +297,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.backgroundImage.Location = new System.Drawing.Point(12, 44);
             this.backgroundImage.Name = "backgroundImage";
-            this.backgroundImage.Size = new System.Drawing.Size(600, 1163);
+            this.backgroundImage.Size = new System.Drawing.Size(600, 1296);
             this.backgroundImage.TabIndex = 12;
             this.backgroundImage.TabStop = false;
             // 
@@ -291,7 +305,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1493, 1338);
+            this.ClientSize = new System.Drawing.Size(1493, 1471);
+            this.Controls.Add(this.txtConsole);
             this.Controls.Add(this.backgroundImage);
             this.Controls.Add(this.chkTest);
             this.Controls.Add(this.panel1);
@@ -341,6 +356,7 @@
         private System.Windows.Forms.Label lblTime;
         private System.Windows.Forms.PictureBox backgroundImage;
         private System.Windows.Forms.Label lblCheckinStatus;
+        private System.Windows.Forms.RichTextBox txtConsole;
     }
 }
 

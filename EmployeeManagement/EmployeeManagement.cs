@@ -11,6 +11,7 @@ namespace EmployeeManagement
     using System.Data;
     using System.Drawing;
     using System.IO;
+    using System.Threading;
     using WebEye.Controls.WinForms.StreamPlayerControl;
 
     public partial class EmployeeManagement : Form
@@ -142,7 +143,7 @@ namespace EmployeeManagement
 
             if (!manualMode)
             {
-                if (elapsed.TotalMilliseconds > 100)
+                if (elapsed.TotalMilliseconds > 150)
                     _barcode.Clear();
             }
 
@@ -189,6 +190,8 @@ namespace EmployeeManagement
                 if (!Int32.TryParse(empId, out tmp))
                 {
                     Console.WriteLine("Invalid ID: " + empId);
+                    txtConsole.Text += "\n" + DateTime.Now.ToString("HH:mm:ss") + ": Mã nhân viên chưa đúng: " + empId;
+                    //MessageBox.Show("Mã nhân viên chưa đúng: " + empId, "Lỗi!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     lblId.Text = "";
                     return;
                 }
@@ -199,6 +202,8 @@ namespace EmployeeManagement
                     lblId.Text = lblName.Text = txtRole.Text = lblTime.Text = lblCheckinStatus.Text = "";
                     picBoxEmployee.Image = null;
                     Console.WriteLine("Employee does not exist: " + empId);
+                    txtConsole.Text += "\n"+ DateTime.Now.ToString("HH:mm:ss") + ": Nhân viên không tồn tại: " + empId;
+                    //MessageBox.Show("Nhân viên không tồn tại: " + empId, "Nhân viên không tồn tại!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -238,6 +243,7 @@ namespace EmployeeManagement
                 }
                 catch (Exception ex)
                 {
+                    txtConsole.Text += "\n" + DateTime.Now.ToString("HH:mm:ss") + ": Lost database connection!: " + ex.Message;
                     MessageBox.Show("Connection ERROR: "+ex.Message, "Lost database connection!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -378,6 +384,7 @@ namespace EmployeeManagement
             catch
             {
                 Console.WriteLine("Image file error");
+                txtConsole.Text += "\n" + DateTime.Now.ToString("HH:mm:ss") + ": Image file error!";
                 picBoxEmployee.Image = null;
             }
         }
@@ -440,6 +447,7 @@ namespace EmployeeManagement
             }
             catch (Exception ex)
             {
+                txtConsole.Text += "\n" + DateTime.Now.ToString("HH:mm:ss") + ": Can not connect to database cnx!";
                 MessageBox.Show("Can not connect to database!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             CloseConnection();
@@ -617,6 +625,11 @@ namespace EmployeeManagement
             manualMode = chkTest.Checked;
         }
 
-
+        private void txtConsole_TextChanged(object sender, EventArgs e)
+        {
+            txtConsole.SelectionStart = txtConsole.Text.Length;
+            // scroll it automatically
+            txtConsole.ScrollToCaret();
+        }
     }
 }
