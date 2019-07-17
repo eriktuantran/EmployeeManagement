@@ -81,6 +81,8 @@ namespace EmployeeManagement
             //Background Image
             frontImageSaved.SizeMode = PictureBoxSizeMode.StretchImage;
             rearImageSaved.SizeMode = PictureBoxSizeMode.StretchImage;
+            frontImageCaptured.SizeMode = PictureBoxSizeMode.StretchImage;
+            rearImageCaptured.SizeMode = PictureBoxSizeMode.StretchImage;
             //frontImageSaved.Visible = true;
             //try
             //{
@@ -163,7 +165,7 @@ namespace EmployeeManagement
 
             if (!manualMode)
             {
-                if (elapsed.TotalMilliseconds > 100)
+                if (elapsed.TotalMilliseconds > 150)
                     _barcode.Clear();
             }
 
@@ -266,11 +268,12 @@ namespace EmployeeManagement
                     displayTime();
                     if (!rowExist) //checkin
                     {
-                        displayImageWindow(absFrontImageDir, absRearImageDir);
+                        //displayImageWindow(absFrontImageDir, absRearImageDir);
+                        //It has already done at captureCamera 1/2
                     }
                     else //checkout
                     {
-                        displayImageWindow(rearImageCheckIn, frontImageCheckIn);
+                        displayImageWindowStoredInDb(rearImageCheckIn, frontImageCheckIn);
                     }
 
                     // Timer to clean up screen
@@ -319,14 +322,23 @@ namespace EmployeeManagement
         {
             frontImageSaved.Image = null;
             rearImageSaved.Image = null;
+            frontImageCaptured.Image = null;
+            rearImageCaptured.Image = null;
         }
 
-        void displayImageWindow(string frontImageCheckIn, string rearImageCheckIn)
+        void displayImageWindowStoredInDb(string frontImageCheckIn, string rearImageCheckIn)
         {
             if (frontImageCheckIn != "")
             {
-                var front = new Bitmap(frontImageCheckIn);
-                frontImageSaved.Image = (Image)front;
+                try
+                {
+                    var front = new Bitmap(frontImageCheckIn);
+                    frontImageSaved.Image = (Image)front;
+                }
+                catch
+                {
+                    frontImageSaved.Image = null;
+                }
             }
             else
             {
@@ -334,8 +346,15 @@ namespace EmployeeManagement
             }
             if (rearImageCheckIn != "")
             {
-                var rear = new Bitmap(rearImageCheckIn);
-                rearImageSaved.Image = (Image)rear;
+                try
+                {
+                    var rear = new Bitmap(rearImageCheckIn);
+                    rearImageSaved.Image = (Image)rear;
+                }
+                catch
+                {
+                    rearImageSaved.Image = null;
+                }
             }
             else
             {
@@ -353,15 +372,35 @@ namespace EmployeeManagement
                     case 1: //front
                         filename = imageDir + "\\" + "Front-"+lblId.Text + now + ".bmp";
                         Console.WriteLine(filename);
-                        frontCameraStream.GetCurrentFrame().Save(filename);
-                        filename = filename.Replace("\\", "\\\\");
+                        var front = frontCameraStream.GetCurrentFrame();
+                        try
+                        {
+                            front.Save(filename);
+                            filename = filename.Replace("\\", "\\\\");
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Failed to write front image to hard disk");
+                            filename = "";
+                        }
+                        frontImageCaptured.Image = front;
                         return filename;
                         break;
                     case 2: //rear
                         filename = imageDir + "\\" + "Rear-"+lblId.Text + now + ".bmp";
                         Console.WriteLine(filename);
-                        rearCameraStream.GetCurrentFrame().Save(filename);
-                        filename = filename.Replace("\\", "\\\\");
+                        var rear = rearCameraStream.GetCurrentFrame();
+                        try
+                        {
+                            rear.Save(filename);
+                            filename = filename.Replace("\\", "\\\\");
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Failed to write rear image to hard disk");
+                            filename = "";
+                        }
+                        rearImageCaptured.Image = rear;
                         return filename;
                         break;
                     default:

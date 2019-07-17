@@ -54,6 +54,8 @@
             this.chkTest = new System.Windows.Forms.CheckBox();
             this.frontImageSaved = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.rearImageCaptured = new System.Windows.Forms.PictureBox();
+            this.frontImageCaptured = new System.Windows.Forms.PictureBox();
             this.rearCameraStream = new WebEye.Controls.WinForms.StreamPlayerControl.StreamPlayerControl();
             this.rearImageSaved = new System.Windows.Forms.PictureBox();
             this.lblRearCamStatus = new System.Windows.Forms.Label();
@@ -62,6 +64,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.picBoxEmployee)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.frontImageSaved)).BeginInit();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.rearImageCaptured)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.frontImageCaptured)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rearImageSaved)).BeginInit();
             this.SuspendLayout();
             // 
@@ -111,7 +115,7 @@
             this.dataToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(2265, 40);
+            this.menuStrip1.Size = new System.Drawing.Size(2734, 40);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -184,7 +188,7 @@
             this.panel1.Controls.Add(this.lblName);
             this.panel1.Controls.Add(this.lblId);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(1420, 44);
+            this.panel1.Location = new System.Drawing.Point(1889, 44);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(833, 1263);
             this.panel1.TabIndex = 10;
@@ -318,7 +322,7 @@
             // 
             this.chkTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chkTest.AutoSize = true;
-            this.chkTest.Location = new System.Drawing.Point(2138, 1336);
+            this.chkTest.Location = new System.Drawing.Point(2607, 1336);
             this.chkTest.Name = "chkTest";
             this.chkTest.Size = new System.Drawing.Size(115, 29);
             this.chkTest.TabIndex = 11;
@@ -329,7 +333,7 @@
             // frontImageSaved
             // 
             this.frontImageSaved.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.frontImageSaved.Location = new System.Drawing.Point(4, 624);
+            this.frontImageSaved.Location = new System.Drawing.Point(1245, 4);
             this.frontImageSaved.Name = "frontImageSaved";
             this.frontImageSaved.Size = new System.Drawing.Size(600, 600);
             this.frontImageSaved.TabIndex = 12;
@@ -340,19 +344,39 @@
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Controls.Add(this.rearImageCaptured);
+            this.panel2.Controls.Add(this.frontImageCaptured);
             this.panel2.Controls.Add(this.rearCameraStream);
             this.panel2.Controls.Add(this.rearImageSaved);
             this.panel2.Controls.Add(this.frontCameraStream);
             this.panel2.Controls.Add(this.frontImageSaved);
             this.panel2.Location = new System.Drawing.Point(12, 44);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1364, 1263);
+            this.panel2.Size = new System.Drawing.Size(1871, 1263);
             this.panel2.TabIndex = 13;
+            // 
+            // rearImageCaptured
+            // 
+            this.rearImageCaptured.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.rearImageCaptured.Location = new System.Drawing.Point(624, 636);
+            this.rearImageCaptured.Name = "rearImageCaptured";
+            this.rearImageCaptured.Size = new System.Drawing.Size(600, 600);
+            this.rearImageCaptured.TabIndex = 16;
+            this.rearImageCaptured.TabStop = false;
+            // 
+            // frontImageCaptured
+            // 
+            this.frontImageCaptured.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.frontImageCaptured.Location = new System.Drawing.Point(624, 4);
+            this.frontImageCaptured.Name = "frontImageCaptured";
+            this.frontImageCaptured.Size = new System.Drawing.Size(600, 600);
+            this.frontImageCaptured.TabIndex = 15;
+            this.frontImageCaptured.TabStop = false;
             // 
             // rearCameraStream
             // 
             this.rearCameraStream.BackColor = System.Drawing.Color.Gainsboro;
-            this.rearCameraStream.Location = new System.Drawing.Point(650, 4);
+            this.rearCameraStream.Location = new System.Drawing.Point(4, 636);
             this.rearCameraStream.Margin = new System.Windows.Forms.Padding(4);
             this.rearCameraStream.Name = "rearCameraStream";
             this.rearCameraStream.Size = new System.Drawing.Size(600, 600);
@@ -364,7 +388,7 @@
             // rearImageSaved
             // 
             this.rearImageSaved.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.rearImageSaved.Location = new System.Drawing.Point(650, 624);
+            this.rearImageSaved.Location = new System.Drawing.Point(1245, 636);
             this.rearImageSaved.Name = "rearImageSaved";
             this.rearImageSaved.Size = new System.Drawing.Size(600, 600);
             this.rearImageSaved.TabIndex = 13;
@@ -385,7 +409,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2265, 1378);
+            this.ClientSize = new System.Drawing.Size(2734, 1378);
             this.Controls.Add(this.lblRearCamStatus);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.chkTest);
@@ -411,6 +435,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.picBoxEmployee)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.frontImageSaved)).EndInit();
             this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.rearImageCaptured)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.frontImageCaptured)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rearImageSaved)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -447,6 +473,8 @@
         private System.Windows.Forms.Label lblMotorNum;
         private System.Windows.Forms.ToolStripMenuItem dataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem employeesMotobikeToolStripMenuItem;
+        private System.Windows.Forms.PictureBox frontImageCaptured;
+        private System.Windows.Forms.PictureBox rearImageCaptured;
     }
 }
 
