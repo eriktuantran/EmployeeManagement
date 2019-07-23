@@ -142,11 +142,11 @@ namespace EmployeeManagement
 
             if (!manualMode)
             {
-                if (elapsed.TotalMilliseconds > 100)
+                if (elapsed.TotalMilliseconds > 150)
                     _barcode.Clear();
             }
 
-            if(manualMode && e.KeyChar == Convert.ToChar(Keys.Back))
+            if (manualMode && e.KeyChar == Convert.ToChar(Keys.Back))
             {
                 if (_barcode.Count > 0)
                 {
@@ -169,12 +169,12 @@ namespace EmployeeManagement
                 {
                     string msg = new String(_barcode.ToArray());
                     lblId.Text = msg;
+                }
 
-                    if (_barcode.Count == 1)
-                    {
-                        lblName.Text = txtRole.Text = lblTime.Text = lblCheckinStatus.Text = "";
-                        picBoxEmployee.Image = null;
-                    }
+                if (_barcode.Count == 1)
+                {
+                    lblName.Text = txtRole.Text = lblTime.Text = lblCheckinStatus.Text = "";
+                    picBoxEmployee.Image = null;
                 }
             }
             else if (e.KeyChar == 13 && _barcode.Count > 0) //MAIN EVENT

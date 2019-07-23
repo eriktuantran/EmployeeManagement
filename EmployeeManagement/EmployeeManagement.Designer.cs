@@ -283,7 +283,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.backgroundImage.Location = new System.Drawing.Point(12, 44);
             this.backgroundImage.Name = "backgroundImage";
-            this.backgroundImage.Size = new System.Drawing.Size(600, 1163);
+            this.backgroundImage.Size = new System.Drawing.Size(600, 1203);
             this.backgroundImage.TabIndex = 12;
             this.backgroundImage.TabStop = false;
             // 
