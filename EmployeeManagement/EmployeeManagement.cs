@@ -73,6 +73,9 @@ namespace EmployeeManagement
             //Automatic start camera
             playCamera();
 
+            //Employee Image
+            picBoxEmployee.SizeMode = PictureBoxSizeMode.StretchImage;
+
             //Background Image
             backgroundImage.SizeMode = PictureBoxSizeMode.StretchImage;
             backgroundImage.Visible = true;
@@ -194,7 +197,8 @@ namespace EmployeeManagement
                 }
 
                 // Employee exist or not
-                if (!isEmployeeExist(empId))
+                EmployeeData empData = getEmployeeDataIfExist(empId);
+                if (!empData.exist)
                 {
                     lblId.Text = lblName.Text = txtRole.Text = lblTime.Text = lblCheckinStatus.Text = "";
                     picBoxEmployee.Image = null;
@@ -227,18 +231,17 @@ namespace EmployeeManagement
                 // Save activities timestamp
                 scaningState[empId] = DateTime.Now;
 
-
                 // Actual event to update GUI and DB
                 string absImageDir = captureCamera();
                 try
                 {
                     updateTimeInOut(empId, absImageDir);
-                    displayNameAndImage(empId);
+                    displayNameAndImage(empData);
                     displayTime();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Connection ERROR: "+ex.Message, "Lost database connection!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Console.WriteLine("Exception when updating the checkin/out: " + ex.Message);
                 }
             }
         }
@@ -252,20 +255,24 @@ namespace EmployeeManagement
 
         string captureCamera()
         {
+            string filename = "";
             try
             {
                 string now = DateTime.Now.ToString("-yyyy-MM-ddTHH-mm-ss");
-                string filename = imageDir +"\\"+ lblId.Text + now + ".bmp";
-                Console.WriteLine(filename);
+                filename = imageDir +"\\"+ lblId.Text + now + ".bmp";
+                Console.WriteLine("Captured: " + filename);
                 streamPlayerControl1.GetCurrentFrame().Save(filename);
-                return filename;
             }
-            catch { }
-            return "";
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed to capture Camera");
+            }
+            return filename;
         }
 
-        private void displayNameAndImage(string id)
+        private EmployeeData getEmployeeDataIfExist(string id)
         {
+            EmployeeData retData =  new EmployeeData();
             try
             {
                 if (this.OpenConnection() == true)
@@ -276,60 +283,106 @@ namespace EmployeeManagement
                     MySqlCommand command = new MySqlCommand(selectCmd, connection);
                     reader = command.ExecuteReader();
 
-                    string name = "";
-                    string bo_phan_id = "";
-                    string bo_phan = "";
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            retData.empId = id;
+                            retData.lastName = reader["last_name"].ToString();
+                            retData.firstName = reader["first_name"].ToString();
+                            retData.deptId = reader["bophan_id"].ToString();
+                            retData.exist = true;
+                        }
+                        reader.Close();
+                    }
+                    else
+                    {
+                        retData.exist = false;
+                    }
+
+                    this.CloseConnection();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed to get the employee data: " + ex.ToString());
+            }
+
+            retData.deptStr = getDeptName(retData.deptId);
+            retData.dump();
+            return retData;
+        }
+        private string getDeptName(string deptId)
+        {
+            string deptName = "";
+            try
+            {
+                if (this.OpenConnection() == true)
+                {
+                    MySqlDataReader reader = null;
+                    string selectCmd = "select name from bophan where id='" + deptId + "';";
+                    Console.WriteLine(selectCmd);
+                    MySqlCommand command = new MySqlCommand(selectCmd, connection);
+                    reader = command.ExecuteReader();
 
                     if (reader.HasRows)
                     {
                         while (reader.Read())
                         {
-                            name += reader.GetString(0);
-                            name += " ";
-                            name += reader.GetString(1);
-                            try
-                            {
-                                bo_phan_id = reader.GetString(2);
-                            }
-                            catch { }
+                            deptName = reader["name"].ToString();
                         }
+                        reader.Close();
                     }
-                    CloseConnection();
-                    lblName.Text = name;
-
-
-                    this.OpenConnection();
-                    selectCmd = "select name from bophan where id='" + bo_phan_id + "';";
-                    MySqlCommand command2 = new MySqlCommand(selectCmd, connection);
-                    MySqlDataReader reader2 = command2.ExecuteReader();
-
-
-                    if (reader2.HasRows)
+                    else
                     {
-                        while (reader2.Read())
-                        {
-                            bo_phan = reader2.GetString(0);
-                        }
+                        deptName = "";
                     }
 
-                    txtRole.Text = bo_phan;
-                    CloseConnection();
+                    this.CloseConnection();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Console.WriteLine("Failed to get the Dept. name: " + ex.ToString());
             }
-            CloseConnection();
+            return deptName;
+        }
+
+        private void displayNameAndImage(EmployeeData empData)
+        { 
+            lblName.Text = empData.getEmployeeName();
+            txtRole.Text = empData.deptStr;
+
             if (lblName.Text != "")
             {
-                updateImage(id);
+                updateImage(empData.empId);
             }
             else
             {
                 picBoxEmployee.Image = null;
             }
+        }
 
+        private void updateImage(string id)
+        {
+            string baseDir = Directory.GetCurrentDirectory();
+            string absImageFile = imageFileSearchById(baseDir, id);
+            if (absImageFile == "")
+            {
+                picBoxEmployee.Image = null;
+                return;
+            }
+
+            try
+            {
+                Bitmap image = new Bitmap(absImageFile);
+                picBoxEmployee.Image = (Image)image;
+            }
+            catch
+            {
+                Console.WriteLine("Image file error");
+                picBoxEmployee.Image = null;
+            }
         }
 
         string imageFileSearchById(string dir, string id)
@@ -353,33 +406,9 @@ namespace EmployeeManagement
             }
             catch (System.Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine("Exception: " + e.Message);
             }
             return fileName;
-        }
-
-        private void updateImage(string id)
-        {
-            string baseDir = Directory.GetCurrentDirectory();
-            string absImageFile = imageFileSearchById(baseDir, id);
-            if(absImageFile == "")
-            {
-                picBoxEmployee.Image = null;
-                return;
-            }
-
-            try
-            {
-
-                Bitmap image = new Bitmap(absImageFile);
-                picBoxEmployee.SizeMode = PictureBoxSizeMode.StretchImage;
-                picBoxEmployee.Image = (Image)image;
-            }
-            catch
-            {
-                Console.WriteLine("Image file error");
-                picBoxEmployee.Image = null;
-            }
         }
 
         private bool isRowExist(string id, string date)
@@ -414,38 +443,7 @@ namespace EmployeeManagement
             return false;
         }
 
-        private bool isEmployeeExist(string id)
-        {
-            try
-            {
-                if (this.OpenConnection() == true)
-                {
-                    MySqlDataReader reader = null;
-                    string selectCmd = "select emp_no from employees where emp_no='" + id + "';";
-
-                    MySqlCommand command = new MySqlCommand(selectCmd, connection);
-                    reader = command.ExecuteReader();
-
-                    if (reader.HasRows)
-                    {
-                        CloseConnection();
-                        return true;
-                    }
-                    else
-                    {
-                        CloseConnection();
-                        return false;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Can not connect to database!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            CloseConnection();
-            return false;
-        }
-
+ 
         private void updateTimeInOut(string id, string imagePath2DB)
         {
             DateTime now = DateTime.Now;
@@ -583,11 +581,24 @@ namespace EmployeeManagement
             try
             {
                 connection.Open();
+                return true;
             }
-            catch
+            catch (MySqlException ex)
             {
+                switch (ex.Number)
+                {
+                    case 0:
+                        Console.WriteLine("DBConnect::OpenConnection Cannot connect to server.  Contact administrator");
+                        MessageBox.Show("Can not connect to database!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+
+                    case 1045:
+                        Console.WriteLine("DBConnect::OpenConnection Invalid username/password, please try again");
+                        MessageBox.Show("Can not connect to database!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+                }
+                return false;
             }
-            return true;
         }
 
         //Close connection
@@ -596,10 +607,13 @@ namespace EmployeeManagement
             try
             {
                 connection.Close();
+                return true;
             }
-            catch
-            {}
-            return true;
+            catch (MySqlException ex)
+            {
+                Console.WriteLine("DBConnect::CloseConnection " + ex.Message.ToString());
+                return false;
+            }
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)

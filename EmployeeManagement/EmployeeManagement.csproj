@@ -108,6 +108,7 @@
     </Compile>
     <Compile Include="Configuration.cs" />
     <Compile Include="DBConnect.cs" />
+    <Compile Include="EmployeeData.cs" />
     <Compile Include="ExportData.cs">
       <SubType>Form</SubType>
     </Compile>
