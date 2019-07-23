@@ -192,6 +192,7 @@ namespace EmployeeManagement
                 if (!Int32.TryParse(empId, out tmp))
                 {
                     Console.WriteLine("Invalid ID: " + empId);
+                    txtConsole.Text += "\n" + DateTime.Now.ToString("HH:mm:ss") + ": Mã nhân viên chưa đúng: " + empId;
                     lblId.Text = "";
                     return;
                 }
@@ -202,6 +203,7 @@ namespace EmployeeManagement
                 {
                     lblId.Text = lblName.Text = txtRole.Text = lblTime.Text = lblCheckinStatus.Text = "";
                     picBoxEmployee.Image = null;
+                    txtConsole.Text += "\n" + DateTime.Now.ToString("HH:mm:ss") + ": Nhân viên không tồn tại: " + empId;
                     Console.WriteLine("Employee does not exist: " + empId);
                     return;
                 }
@@ -242,6 +244,7 @@ namespace EmployeeManagement
                 catch (Exception ex)
                 {
                     Console.WriteLine("Exception when updating the checkin/out: " + ex.Message);
+                    txtConsole.Text += "\n" + DateTime.Now.ToString("HH:mm:ss") + ": Exception when updating the checkin/out!: " + ex.Message;
                 }
             }
         }
@@ -381,6 +384,7 @@ namespace EmployeeManagement
             catch
             {
                 Console.WriteLine("Image file error");
+                txtConsole.Text += "\n" + DateTime.Now.ToString("HH:mm:ss") + ": Image file error!";
                 picBoxEmployee.Image = null;
             }
         }
@@ -589,14 +593,13 @@ namespace EmployeeManagement
                 {
                     case 0:
                         Console.WriteLine("DBConnect::OpenConnection Cannot connect to server.  Contact administrator");
-                        MessageBox.Show("Can not connect to database!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
 
                     case 1045:
                         Console.WriteLine("DBConnect::OpenConnection Invalid username/password, please try again");
-                        MessageBox.Show("Can not connect to database!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                 }
+                txtConsole.Text += "\n" + DateTime.Now.ToString("HH:mm:ss") + ": Can not Open Connection to database!";
                 return false;
             }
         }
@@ -631,6 +634,12 @@ namespace EmployeeManagement
             manualMode = chkTest.Checked;
         }
 
+        private void txtConsole_TextChanged(object sender, EventArgs e)
+        {
+            txtConsole.SelectionStart = txtConsole.Text.Length;
+            // scroll it automatically
+            txtConsole.ScrollToCaret();
 
+        }
     }
 }

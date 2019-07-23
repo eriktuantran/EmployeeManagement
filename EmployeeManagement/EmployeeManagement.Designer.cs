@@ -49,6 +49,7 @@
             this.lblId = new System.Windows.Forms.Label();
             this.chkTest = new System.Windows.Forms.CheckBox();
             this.backgroundImage = new System.Windows.Forms.PictureBox();
+            this.txtConsole = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxEmployee)).BeginInit();
@@ -287,11 +288,24 @@
             this.backgroundImage.TabIndex = 12;
             this.backgroundImage.TabStop = false;
             // 
+            // txtConsole
+            // 
+            this.txtConsole.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtConsole.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtConsole.Location = new System.Drawing.Point(32, 898);
+            this.txtConsole.Name = "txtConsole";
+            this.txtConsole.ReadOnly = true;
+            this.txtConsole.Size = new System.Drawing.Size(610, 296);
+            this.txtConsole.TabIndex = 13;
+            this.txtConsole.Text = "Thông tin kiểm lỗi:";
+            this.txtConsole.TextChanged += new System.EventHandler(this.txtConsole_TextChanged);
+            // 
             // EmployeeManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1493, 1338);
+            this.Controls.Add(this.txtConsole);
             this.Controls.Add(this.backgroundImage);
             this.Controls.Add(this.chkTest);
             this.Controls.Add(this.panel1);
@@ -341,6 +355,7 @@
         private System.Windows.Forms.Label lblTime;
         private System.Windows.Forms.PictureBox backgroundImage;
         private System.Windows.Forms.Label lblCheckinStatus;
+        private System.Windows.Forms.RichTextBox txtConsole;
     }
 }
 
