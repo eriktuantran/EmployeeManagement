@@ -25,8 +25,6 @@ namespace EmployeeManagement
 
         private string cameraAddress = "";
 
-        private string configFileDir = "";
-
         private bool isDisplayTime = false;
 
 
@@ -281,7 +279,10 @@ namespace EmployeeManagement
                 if (this.OpenConnection() == true)
                 {
                     MySqlDataReader reader = null;
-                    string selectCmd = "select last_name,first_name,bophan_id from employees where emp_no='" + id + "';";
+                    string selectCmd = "SELECT tab1.last_name, tab1.first_name, tab2.name ";
+                    selectCmd += "FROM employees AS tab1 ";
+                    selectCmd += "INNER JOIN bophan AS tab2 ON (tab1.bophan_id = tab2.id) "; // join the Department table
+                    selectCmd += "WHERE tab1.emp_no='" + id + "';";
 
                     MySqlCommand command = new MySqlCommand(selectCmd, connection);
                     reader = command.ExecuteReader();
@@ -293,13 +294,14 @@ namespace EmployeeManagement
                             retData.empId = id;
                             retData.lastName = reader["last_name"].ToString();
                             retData.firstName = reader["first_name"].ToString();
-                            retData.deptId = reader["bophan_id"].ToString();
+                            retData.deptStr = reader["name"].ToString(); // Department
                             retData.exist = true;
                         }
                         reader.Close();
                     }
                     else
                     {
+                        Console.WriteLine("Seems the employee does not exist");
                         retData.exist = false;
                     }
 
@@ -309,46 +311,11 @@ namespace EmployeeManagement
             catch (Exception ex)
             {
                 Console.WriteLine("Failed to get the employee data: " + ex.ToString());
+                this.CloseConnection();
             }
 
-            retData.deptStr = getDeptName(retData.deptId);
             retData.dump();
             return retData;
-        }
-        private string getDeptName(string deptId)
-        {
-            string deptName = "";
-            try
-            {
-                if (this.OpenConnection() == true)
-                {
-                    MySqlDataReader reader = null;
-                    string selectCmd = "select name from bophan where id='" + deptId + "';";
-                    Console.WriteLine(selectCmd);
-                    MySqlCommand command = new MySqlCommand(selectCmd, connection);
-                    reader = command.ExecuteReader();
-
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            deptName = reader["name"].ToString();
-                        }
-                        reader.Close();
-                    }
-                    else
-                    {
-                        deptName = "";
-                    }
-
-                    this.CloseConnection();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Failed to get the Dept. name: " + ex.ToString());
-            }
-            return deptName;
         }
 
         private void displayNameAndImage(EmployeeData empData)
@@ -584,6 +551,13 @@ namespace EmployeeManagement
         {
             try
             {
+                // Try to close
+                if(connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+
+                // Open new connection
                 connection.Open();
                 return true;
             }
