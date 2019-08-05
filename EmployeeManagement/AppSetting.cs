@@ -166,7 +166,7 @@ namespace EmployeeManagementApplicationSetting
             {
                 cboxSuffix.Items.Add(val);
             }
-            cboxSuffix.SelectedIndex = 1;
+            cboxSuffix.SelectedIndex = 4;
 
             updateUrlEvent();
         }

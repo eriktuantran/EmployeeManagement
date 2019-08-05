@@ -431,11 +431,11 @@ namespace EmployeeManagement
                     // Check out
                     if (imagePath2DB == "")
                     {
-                        cmd.CommandText = "update checkin set checkout=CURRENT_TIMESTAMP where emp_no='" + id + "' and date='" + date + "' and checkout is NULL;";
+                        cmd.CommandText = "update checkin set checkout='"+ timeStamp + "' where emp_no='" + id + "' and date='" + date + "' and checkout is NULL;";
                     }
                     else
                     {
-                        cmd.CommandText = "update checkin set checkout=CURRENT_TIMESTAMP,pic2='" + imagePath2DB + "' where emp_no='" + id + "' and date='" + date + "' and checkout is NULL;";
+                        cmd.CommandText = "update checkin set checkout='"+ timeStamp + "',pic2='" + imagePath2DB + "' where emp_no='" + id + "' and date='" + date + "' and checkout is NULL;";
                     }
                     lblCheckinStatus.Text = "CẢM ƠN";
                     Console.WriteLine("Line exist: " + cmd.CommandText);

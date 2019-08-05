@@ -366,7 +366,7 @@
             this.txtDbPasswd.Name = "txtDbPasswd";
             this.txtDbPasswd.Size = new System.Drawing.Size(388, 31);
             this.txtDbPasswd.TabIndex = 13;
-            this.txtDbPasswd.Text = "3V5wn0Kv9RRc8gQA";
+            this.txtDbPasswd.Text = "qwer1!2@3#4$";
             this.txtDbPasswd.UseSystemPasswordChar = true;
             this.txtDbPasswd.TextChanged += new System.EventHandler(this.txtDbIP_TextChanged);
             // 
@@ -403,7 +403,7 @@
             this.txtDbUser.Name = "txtDbUser";
             this.txtDbUser.Size = new System.Drawing.Size(388, 31);
             this.txtDbUser.TabIndex = 12;
-            this.txtDbUser.Text = "root";
+            this.txtDbUser.Text = "test";
             this.txtDbUser.TextChanged += new System.EventHandler(this.txtDbIP_TextChanged);
             // 
             // label17
@@ -421,7 +421,7 @@
             this.txtDbIP.Name = "txtDbIP";
             this.txtDbIP.Size = new System.Drawing.Size(388, 31);
             this.txtDbIP.TabIndex = 10;
-            this.txtDbIP.Text = "127.0.0.1";
+            this.txtDbIP.Text = "192.168.1.84";
             this.txtDbIP.TextChanged += new System.EventHandler(this.txtDbIP_TextChanged);
             // 
             // btnOK
