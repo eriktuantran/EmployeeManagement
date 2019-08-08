@@ -35,7 +35,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.settingMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.cameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblStatus = new System.Windows.Forms.Label();
+            this.lblCamStatus = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblCheckinStatus = new System.Windows.Forms.Label();
@@ -50,6 +50,7 @@
             this.chkTest = new System.Windows.Forms.CheckBox();
             this.backgroundImage = new System.Windows.Forms.PictureBox();
             this.txtConsole = new System.Windows.Forms.RichTextBox();
+            this.lblCheckInOutStatus = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxEmployee)).BeginInit();
@@ -122,16 +123,16 @@
             this.cameraToolStripMenuItem.Text = "App Setting";
             this.cameraToolStripMenuItem.Click += new System.EventHandler(this.settingToolStripMenuItem_Click);
             // 
-            // lblStatus
+            // lblCamStatus
             // 
-            this.lblStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(229, 1291);
-            this.lblStatus.Margin = new System.Windows.Forms.Padding(4);
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(73, 25);
-            this.lblStatus.TabIndex = 1;
-            this.lblStatus.Text = "Status";
+            this.lblCamStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblCamStatus.AutoSize = true;
+            this.lblCamStatus.Location = new System.Drawing.Point(229, 1291);
+            this.lblCamStatus.Margin = new System.Windows.Forms.Padding(4);
+            this.lblCamStatus.Name = "lblCamStatus";
+            this.lblCamStatus.Size = new System.Drawing.Size(73, 25);
+            this.lblCamStatus.TabIndex = 1;
+            this.lblCamStatus.Text = "Status";
             // 
             // label1
             // 
@@ -300,16 +301,28 @@
             this.txtConsole.Text = "Thông tin kiểm lỗi:";
             this.txtConsole.TextChanged += new System.EventHandler(this.txtConsole_TextChanged);
             // 
+            // lblCheckInOutStatus
+            // 
+            this.lblCheckInOutStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCheckInOutStatus.AutoSize = true;
+            this.lblCheckInOutStatus.Location = new System.Drawing.Point(648, 1292);
+            this.lblCheckInOutStatus.Margin = new System.Windows.Forms.Padding(4);
+            this.lblCheckInOutStatus.Name = "lblCheckInOutStatus";
+            this.lblCheckInOutStatus.Size = new System.Drawing.Size(73, 25);
+            this.lblCheckInOutStatus.TabIndex = 14;
+            this.lblCheckInOutStatus.Text = "Status";
+            // 
             // EmployeeManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1493, 1338);
+            this.Controls.Add(this.lblCheckInOutStatus);
             this.Controls.Add(this.txtConsole);
             this.Controls.Add(this.backgroundImage);
             this.Controls.Add(this.chkTest);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.lblStatus);
+            this.Controls.Add(this.lblCamStatus);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this._stopButton);
             this.Controls.Add(this._playButton);
@@ -341,7 +354,7 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem settingMenu;
         private System.Windows.Forms.ToolStripMenuItem cameraToolStripMenuItem;
-        private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.Label lblCamStatus;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lblId;
@@ -356,6 +369,7 @@
         private System.Windows.Forms.PictureBox backgroundImage;
         private System.Windows.Forms.Label lblCheckinStatus;
         private System.Windows.Forms.RichTextBox txtConsole;
+        private System.Windows.Forms.Label lblCheckInOutStatus;
     }
 }
 

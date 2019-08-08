@@ -11,6 +11,7 @@ namespace EmployeeManagement
     using System.Data;
     using System.Drawing;
     using System.IO;
+    using System.Linq;
     using WebEye.Controls.WinForms.StreamPlayerControl;
 
     public partial class EmployeeManagement : Form
@@ -86,6 +87,9 @@ namespace EmployeeManagement
             {
                 Console.WriteLine("Background image not found: " + backgroundImageDir);
             }
+
+            //Console
+            txtConsole.Visible = false;
         }
 
         void populateFormIntialValue(MyDictionary dict)
@@ -174,7 +178,7 @@ namespace EmployeeManagement
 
                 if (_barcode.Count == 1)
                 {
-                    lblName.Text = txtRole.Text = lblTime.Text = lblCheckinStatus.Text = "";
+                    lblName.Text = txtRole.Text = lblTime.Text = lblCheckinStatus.Text = lblCheckInOutStatus.Text = "";
                     picBoxEmployee.Image = null;
                 }
             }
@@ -190,7 +194,9 @@ namespace EmployeeManagement
                 if (!Int32.TryParse(empId, out tmp))
                 {
                     Console.WriteLine("Invalid ID: " + empId);
-                    txtConsole.Text += "\n" + DateTime.Now.ToString("HH:mm:ss") + ": Mã nhân viên chưa đúng: " + empId;
+                    string errorLine = DateTime.Now.ToString("HH:mm:ss") + ": Mã nhân viên chưa đúng: " + empId;
+                    txtConsole.Text += "\n" + errorLine;
+                    lblCheckInOutStatus.Text = errorLine;
                     lblId.Text = "";
                     return;
                 }
@@ -201,7 +207,9 @@ namespace EmployeeManagement
                 {
                     lblId.Text = lblName.Text = txtRole.Text = lblTime.Text = lblCheckinStatus.Text = "";
                     picBoxEmployee.Image = null;
-                    txtConsole.Text += "\n" + DateTime.Now.ToString("HH:mm:ss") + ": Nhân viên không tồn tại: " + empId;
+                    string errorLine = DateTime.Now.ToString("HH:mm:ss") + ": Nhân viên không tồn tại: " + empId;
+                    txtConsole.Text += "\n" + errorLine;
+                    lblCheckInOutStatus.Text = errorLine;
                     Console.WriteLine("Employee does not exist: " + empId);
                     return;
                 }
@@ -219,6 +227,7 @@ namespace EmployeeManagement
                         int remain = (int)(minTimeBetweenScanSteps - timeDiff);
                         Console.WriteLine("Duplicated activities");
                         lblId.Text = "Đã thực hiện!";
+                        lblName.Text = "Vui lòng đợi: " + remain.ToString() + " giây!";
                         return;
                     }
                     else
@@ -242,7 +251,9 @@ namespace EmployeeManagement
                 catch (Exception ex)
                 {
                     Console.WriteLine("Exception when updating the checkin/out: " + ex.Message);
-                    txtConsole.Text += "\n" + DateTime.Now.ToString("HH:mm:ss") + ": Exception when updating the checkin/out!: " + ex.Message;
+                    string errorLine = DateTime.Now.ToString("HH:mm:ss") + ": Exception when updating the checkin/out!: " + ex.Message;
+                    txtConsole.Text += "\n" + errorLine;
+                    lblCheckInOutStatus.Text = errorLine;
                 }
             }
         }
@@ -351,7 +362,9 @@ namespace EmployeeManagement
             catch
             {
                 Console.WriteLine("Image file error");
-                txtConsole.Text += "\n" + DateTime.Now.ToString("HH:mm:ss") + ": Image file error!";
+                string errorLine = DateTime.Now.ToString("HH:mm:ss") + ": Image file error!";
+                txtConsole.Text += "\n" + errorLine;
+                lblCheckInOutStatus.Text = errorLine;
                 picBoxEmployee.Image = null;
             }
         }
@@ -488,7 +501,7 @@ namespace EmployeeManagement
             if (streamPlayerControl1.IsPlaying == false)
             {
                 streamPlayerControl1.StartPlay(uri);
-                lblStatus.Text = "Connecting...";
+                lblCamStatus.Text = "Connecting...";
             }  
         }
 
@@ -513,7 +526,7 @@ namespace EmployeeManagement
         {
             UpdateButtons();
 
-            lblStatus.Text = "Playing";
+            lblCamStatus.Text = "Playing";
             backgroundImage.Visible = false;
         }
 
@@ -521,7 +534,7 @@ namespace EmployeeManagement
         {
             UpdateButtons();
 
-            lblStatus.Text = "Can not connect to camera";
+            lblCamStatus.Text = "Can not connect to camera";
             if (cameraStatus)
             {
                 playCamera();
@@ -542,7 +555,7 @@ namespace EmployeeManagement
                 Console.WriteLine("Stream failed event, trying to reconnect");
             }
 
-            lblStatus.Text = "Stopped";
+            lblCamStatus.Text = "Stopped";
         }
 
 
@@ -573,7 +586,9 @@ namespace EmployeeManagement
                         Console.WriteLine("DBConnect::OpenConnection Invalid username/password, please try again");
                         break;
                 }
-                txtConsole.Text += "\n" + DateTime.Now.ToString("HH:mm:ss") + ": Can not Open Connection to database!";
+                string errorLine = DateTime.Now.ToString("HH:mm:ss") + ": Can not Open Connection to database!";
+                txtConsole.Text += "\n" + errorLine;
+                lblCheckInOutStatus.Text = errorLine;
                 return false;
             }
         }
@@ -613,7 +628,6 @@ namespace EmployeeManagement
             txtConsole.SelectionStart = txtConsole.Text.Length;
             // scroll it automatically
             txtConsole.ScrollToCaret();
-
         }
     }
 }
