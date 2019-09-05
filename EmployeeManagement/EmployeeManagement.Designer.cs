@@ -38,7 +38,7 @@
             this.lblCamStatus = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.lblCheckinStatus = new System.Windows.Forms.Label();
+            this.lblCheckinStatus = new System.Windows.Forms.TextBox();
             this.lblTime0 = new System.Windows.Forms.Label();
             this.lblTime = new System.Windows.Forms.Label();
             this.txtRole = new System.Windows.Forms.TextBox();
@@ -160,6 +160,7 @@
             this.panel1.Controls.Add(this.lblName);
             this.panel1.Controls.Add(this.lblId);
             this.panel1.Controls.Add(this.label1);
+            this.panel1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.panel1.Location = new System.Drawing.Point(648, 44);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(833, 1203);
@@ -167,21 +168,24 @@
             // 
             // lblCheckinStatus
             // 
-            this.lblCheckinStatus.AutoSize = true;
-            this.lblCheckinStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCheckinStatus.BackColor = System.Drawing.Color.Gainsboro;
+            this.lblCheckinStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lblCheckinStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 23F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCheckinStatus.ForeColor = System.Drawing.Color.Red;
-            this.lblCheckinStatus.Location = new System.Drawing.Point(226, 1033);
+            this.lblCheckinStatus.Location = new System.Drawing.Point(11, 1001);
+            this.lblCheckinStatus.Multiline = true;
             this.lblCheckinStatus.Name = "lblCheckinStatus";
-            this.lblCheckinStatus.Size = new System.Drawing.Size(89, 73);
-            this.lblCheckinStatus.TabIndex = 21;
-            this.lblCheckinStatus.Text = "...";
+            this.lblCheckinStatus.Size = new System.Drawing.Size(804, 181);
+            this.lblCheckinStatus.TabIndex = 23;
+            this.lblCheckinStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.lblCheckinStatus.WordWrap = false;
             // 
             // lblTime0
             // 
             this.lblTime0.AutoSize = true;
             this.lblTime0.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTime0.ForeColor = System.Drawing.Color.Red;
-            this.lblTime0.Location = new System.Drawing.Point(3, 928);
+            this.lblTime0.Location = new System.Drawing.Point(3, 894);
             this.lblTime0.Name = "lblTime0";
             this.lblTime0.Size = new System.Drawing.Size(205, 46);
             this.lblTime0.TabIndex = 20;
@@ -192,7 +196,7 @@
             this.lblTime.AutoSize = true;
             this.lblTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTime.ForeColor = System.Drawing.Color.Red;
-            this.lblTime.Location = new System.Drawing.Point(232, 930);
+            this.lblTime.Location = new System.Drawing.Point(232, 896);
             this.lblTime.Name = "lblTime";
             this.lblTime.Size = new System.Drawing.Size(53, 44);
             this.lblTime.TabIndex = 19;
@@ -204,7 +208,7 @@
             this.txtRole.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtRole.ForeColor = System.Drawing.Color.Red;
-            this.txtRole.Location = new System.Drawing.Point(284, 821);
+            this.txtRole.Location = new System.Drawing.Point(284, 800);
             this.txtRole.Multiline = true;
             this.txtRole.Name = "txtRole";
             this.txtRole.ReadOnly = true;
@@ -216,7 +220,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(3, 821);
+            this.label2.Location = new System.Drawing.Point(3, 800);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(254, 46);
             this.label2.TabIndex = 17;
@@ -238,7 +242,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Red;
-            this.label3.Location = new System.Drawing.Point(3, 718);
+            this.label3.Location = new System.Drawing.Point(3, 711);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(103, 46);
             this.label3.TabIndex = 14;
@@ -249,7 +253,7 @@
             this.lblName.AutoSize = true;
             this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblName.ForeColor = System.Drawing.Color.Red;
-            this.lblName.Location = new System.Drawing.Point(157, 720);
+            this.lblName.Location = new System.Drawing.Point(157, 713);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(53, 44);
             this.lblName.TabIndex = 13;
@@ -317,8 +321,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1493, 1338);
-            this.Controls.Add(this.lblCheckInOutStatus);
             this.Controls.Add(this.txtConsole);
+            this.Controls.Add(this.lblCheckInOutStatus);
             this.Controls.Add(this.backgroundImage);
             this.Controls.Add(this.chkTest);
             this.Controls.Add(this.panel1);
@@ -367,9 +371,9 @@
         private System.Windows.Forms.Label lblTime0;
         private System.Windows.Forms.Label lblTime;
         private System.Windows.Forms.PictureBox backgroundImage;
-        private System.Windows.Forms.Label lblCheckinStatus;
         private System.Windows.Forms.RichTextBox txtConsole;
         private System.Windows.Forms.Label lblCheckInOutStatus;
+        private System.Windows.Forms.TextBox lblCheckinStatus;
     }
 }
 

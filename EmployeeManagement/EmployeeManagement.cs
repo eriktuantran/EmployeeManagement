@@ -89,7 +89,8 @@ namespace EmployeeManagement
             }
 
             //Console
-            txtConsole.Visible = false;
+            txtConsole.Visible = true;
+            lblCheckinStatus.TextAlign = HorizontalAlignment.Center;
         }
 
         void populateFormIntialValue(MyDictionary dict)
@@ -433,6 +434,8 @@ namespace EmployeeManagement
             DateTime now = DateTime.Now;
             string timeStamp = now.ToString("yyyy-MM-dd HH:mm:ss");
             string date = now.ToString("yyyy-MM-dd");
+            TimeSpan nowTimeSpan = now.TimeOfDay;
+            TimeSpan timeSpanLimitForCheckin = TimeSpan.Parse("14:00"); // 14h:00m
             bool rowExist = isRowExist(id, date);
 
             if (this.OpenConnection() == true)
@@ -453,6 +456,13 @@ namespace EmployeeManagement
                     lblCheckinStatus.Text = "CẢM ƠN";
                     Console.WriteLine("Line exist: " + cmd.CommandText);
                 }
+                else if(nowTimeSpan > timeSpanLimitForCheckin)
+                {
+                    lblCheckinStatus.Text = "Chưa checkin! Vui lòng liên hệ phòng nhân sự để xử lý!";
+                    Console.WriteLine("Line not exist, forgot to checkin, contact HR admin");
+                    this.CloseConnection();
+                    return;
+                }
                 else
                 {
                     //Check in
@@ -463,8 +473,10 @@ namespace EmployeeManagement
                     else
                     {
                         cmd.CommandText = "insert into checkin (`emp_no`, `date`, `checkin`, `pic1`) values ( '" + id + "', '" + date + "', '" + timeStamp + "', '" + imagePath2DB + "' );";
-                    }                   
+                    }
                     lblCheckinStatus.Text = "XIN CHÀO";
+                    lblCheckinStatus.AppendText(Environment.NewLine);
+                    lblCheckinStatus.AppendText("Chúc bạn một ngày vui vẻ!");
                     Console.WriteLine("Line NOT exist: " + cmd.CommandText);
                 }
 
