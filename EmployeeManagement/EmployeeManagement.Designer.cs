@@ -51,6 +51,7 @@
             this.backgroundImage = new System.Windows.Forms.PictureBox();
             this.txtConsole = new System.Windows.Forms.RichTextBox();
             this.lblCheckInOutStatus = new System.Windows.Forms.Label();
+            this.txtWarning = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxEmployee)).BeginInit();
@@ -138,7 +139,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Red;
+            this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(3, 619);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 46);
@@ -171,10 +172,11 @@
             this.lblCheckinStatus.BackColor = System.Drawing.Color.Gainsboro;
             this.lblCheckinStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lblCheckinStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 23F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCheckinStatus.ForeColor = System.Drawing.Color.Red;
+            this.lblCheckinStatus.ForeColor = System.Drawing.Color.LimeGreen;
             this.lblCheckinStatus.Location = new System.Drawing.Point(11, 1001);
             this.lblCheckinStatus.Multiline = true;
             this.lblCheckinStatus.Name = "lblCheckinStatus";
+            this.lblCheckinStatus.ReadOnly = true;
             this.lblCheckinStatus.Size = new System.Drawing.Size(804, 181);
             this.lblCheckinStatus.TabIndex = 23;
             this.lblCheckinStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -184,7 +186,7 @@
             // 
             this.lblTime0.AutoSize = true;
             this.lblTime0.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTime0.ForeColor = System.Drawing.Color.Red;
+            this.lblTime0.ForeColor = System.Drawing.Color.Black;
             this.lblTime0.Location = new System.Drawing.Point(3, 894);
             this.lblTime0.Name = "lblTime0";
             this.lblTime0.Size = new System.Drawing.Size(205, 46);
@@ -195,7 +197,7 @@
             // 
             this.lblTime.AutoSize = true;
             this.lblTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTime.ForeColor = System.Drawing.Color.Red;
+            this.lblTime.ForeColor = System.Drawing.Color.Black;
             this.lblTime.Location = new System.Drawing.Point(232, 896);
             this.lblTime.Name = "lblTime";
             this.lblTime.Size = new System.Drawing.Size(53, 44);
@@ -207,7 +209,7 @@
             this.txtRole.BackColor = System.Drawing.Color.Gainsboro;
             this.txtRole.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRole.ForeColor = System.Drawing.Color.Red;
+            this.txtRole.ForeColor = System.Drawing.Color.Black;
             this.txtRole.Location = new System.Drawing.Point(284, 800);
             this.txtRole.Multiline = true;
             this.txtRole.Name = "txtRole";
@@ -219,7 +221,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.Red;
+            this.label2.ForeColor = System.Drawing.Color.Black;
             this.label2.Location = new System.Drawing.Point(3, 800);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(254, 46);
@@ -241,7 +243,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.Red;
+            this.label3.ForeColor = System.Drawing.Color.Black;
             this.label3.Location = new System.Drawing.Point(3, 711);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(103, 46);
@@ -251,11 +253,11 @@
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblName.ForeColor = System.Drawing.Color.Red;
+            this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblName.ForeColor = System.Drawing.Color.Black;
             this.lblName.Location = new System.Drawing.Point(157, 713);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(53, 44);
+            this.lblName.Size = new System.Drawing.Size(56, 44);
             this.lblName.TabIndex = 13;
             this.lblName.Text = "...";
             // 
@@ -263,7 +265,7 @@
             // 
             this.lblId.AutoSize = true;
             this.lblId.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblId.ForeColor = System.Drawing.Color.Red;
+            this.lblId.ForeColor = System.Drawing.Color.Black;
             this.lblId.Location = new System.Drawing.Point(157, 619);
             this.lblId.Name = "lblId";
             this.lblId.Size = new System.Drawing.Size(56, 46);
@@ -297,10 +299,10 @@
             // 
             this.txtConsole.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txtConsole.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtConsole.Location = new System.Drawing.Point(32, 898);
+            this.txtConsole.Location = new System.Drawing.Point(32, 1010);
             this.txtConsole.Name = "txtConsole";
             this.txtConsole.ReadOnly = true;
-            this.txtConsole.Size = new System.Drawing.Size(610, 296);
+            this.txtConsole.Size = new System.Drawing.Size(610, 249);
             this.txtConsole.TabIndex = 13;
             this.txtConsole.Text = "Thông tin kiểm lỗi:";
             this.txtConsole.TextChanged += new System.EventHandler(this.txtConsole_TextChanged);
@@ -316,12 +318,28 @@
             this.lblCheckInOutStatus.TabIndex = 14;
             this.lblCheckInOutStatus.Text = "Status";
             // 
+            // txtWarning
+            // 
+            this.txtWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtWarning.BackColor = System.Drawing.Color.Khaki;
+            this.txtWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 42F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtWarning.ForeColor = System.Drawing.Color.Red;
+            this.txtWarning.Location = new System.Drawing.Point(49, 80);
+            this.txtWarning.Multiline = true;
+            this.txtWarning.Name = "txtWarning";
+            this.txtWarning.ReadOnly = true;
+            this.txtWarning.Size = new System.Drawing.Size(533, 1134);
+            this.txtWarning.TabIndex = 15;
+            // 
             // EmployeeManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1493, 1338);
             this.Controls.Add(this.txtConsole);
+            this.Controls.Add(this.txtWarning);
             this.Controls.Add(this.lblCheckInOutStatus);
             this.Controls.Add(this.backgroundImage);
             this.Controls.Add(this.chkTest);
@@ -374,6 +392,7 @@
         private System.Windows.Forms.RichTextBox txtConsole;
         private System.Windows.Forms.Label lblCheckInOutStatus;
         private System.Windows.Forms.TextBox lblCheckinStatus;
+        private System.Windows.Forms.TextBox txtWarning;
     }
 }
 

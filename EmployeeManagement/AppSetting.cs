@@ -20,6 +20,7 @@ namespace EmployeeManagementApplicationSetting
         public string connectionString = "";
         public bool isDisplayTime = false;
         public int minTimeBetweenScanSteps = 3600; //second
+        public bool consoleEnabled = false;
 
         //DB
         private MySqlConnection connection;
@@ -121,6 +122,10 @@ namespace EmployeeManagementApplicationSetting
                 }
                 minTimeScan.Value = readValue;
             }
+            if (readConfigDict.ContainsKey("consoleEnable") && readConfigDict["consoleEnable"] != "")
+            {
+                chkConsoleEnable.Checked = readConfigDict["consoleEnable"].Contains("rue") ? true : false;
+            }
         }
 
         void updateDictionaryEvent()
@@ -142,6 +147,7 @@ namespace EmployeeManagementApplicationSetting
 
             globalDictionary["displaytime"] = chkDisplayTime.Checked.ToString();
             globalDictionary["mintimescan"] = minTimeScan.Value.ToString();
+            globalDictionary["consoleEnable"] = chkConsoleEnable.Checked.ToString();
         }
 
         void intialValue()
@@ -237,6 +243,8 @@ namespace EmployeeManagementApplicationSetting
             imageDir = txtImageDir.Text;
             isDisplayTime = chkDisplayTime.Checked;
             minTimeBetweenScanSteps = Decimal.ToInt32(minTimeScan.Value);
+            consoleEnabled = chkConsoleEnable.Checked;
+
             updateConnectionString();
 
             updateDictionaryEvent();

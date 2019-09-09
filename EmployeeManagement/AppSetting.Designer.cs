@@ -73,6 +73,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.progressbarWorker = new System.ComponentModel.BackgroundWorker();
             this.dbConnectionTester = new System.ComponentModel.BackgroundWorker();
+            this.chkConsoleEnable = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -450,6 +451,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.chkConsoleEnable);
             this.panel3.Controls.Add(this.label18);
             this.panel3.Controls.Add(this.label14);
             this.panel3.Controls.Add(this.minTimeScan);
@@ -492,7 +494,7 @@
             0,
             0});
             this.minTimeScan.Minimum = new decimal(new int[] {
-            10,
+            2,
             0,
             0,
             0});
@@ -525,6 +527,17 @@
             this.dbConnectionTester.WorkerSupportsCancellation = true;
             this.dbConnectionTester.DoWork += new System.ComponentModel.DoWorkEventHandler(this.dbConnectionTester_DoWork);
             this.dbConnectionTester.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.dbConnectionTester_RunWorkerCompleted);
+            // 
+            // chkConsoleEnable
+            // 
+            this.chkConsoleEnable.AutoSize = true;
+            this.chkConsoleEnable.Location = new System.Drawing.Point(306, 51);
+            this.chkConsoleEnable.Name = "chkConsoleEnable";
+            this.chkConsoleEnable.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.chkConsoleEnable.Size = new System.Drawing.Size(162, 29);
+            this.chkConsoleEnable.TabIndex = 29;
+            this.chkConsoleEnable.Text = ":Check error";
+            this.chkConsoleEnable.UseVisualStyleBackColor = true;
             // 
             // AppSetting
             // 
@@ -596,5 +609,6 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.NumericUpDown minTimeScan;
+        private System.Windows.Forms.CheckBox chkConsoleEnable;
     }
 }

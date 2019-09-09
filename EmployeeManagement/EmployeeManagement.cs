@@ -28,6 +28,7 @@ namespace EmployeeManagement
 
         private bool isDisplayTime = false;
 
+        private bool consoleEnable = false;
 
         string backgroundImageDir = Directory.GetCurrentDirectory() + "\\background.jpg";
         Bitmap backImage;
@@ -78,6 +79,7 @@ namespace EmployeeManagement
             //Background Image
             backgroundImage.SizeMode = PictureBoxSizeMode.StretchImage;
             backgroundImage.Visible = true;
+
             try
             {
                 backImage = new Bitmap(backgroundImageDir);
@@ -88,8 +90,18 @@ namespace EmployeeManagement
                 Console.WriteLine("Background image not found: " + backgroundImageDir);
             }
 
+            // Warning forgot checkin
+            txtWarning.Visible = false;
+            txtWarning.TextAlign = HorizontalAlignment.Center;
+            txtWarning.AppendText(Environment.NewLine); txtWarning.AppendText(Environment.NewLine); txtWarning.AppendText(Environment.NewLine);
+            txtWarning.AppendText("BẠN CHƯA QUẸT THẺ LÚC VÀO");
+            txtWarning.AppendText(Environment.NewLine);
+            txtWarning.AppendText("Vui lòng liên hệ P.HCQT để được hướng dẫn.");
+
             //Console
-            txtConsole.Visible = true;
+            txtConsole.Visible = consoleEnable;
+
+            //Checkin status
             lblCheckinStatus.TextAlign = HorizontalAlignment.Center;
         }
 
@@ -115,6 +127,10 @@ namespace EmployeeManagement
             {
                 minTimeBetweenScanSteps = Int32.Parse(dict["mintimescan"]);
             }
+            if (dict.ContainsKey("consoleEnable") && dict["consoleEnable"] != "")
+            {
+                consoleEnable = dict["consoleEnable"].Contains("rue");
+            }
         }
 
         void getValueFromSettingForm()
@@ -131,6 +147,8 @@ namespace EmployeeManagement
                 connection = new MySqlConnection(connectionString);
                 isDisplayTime = appSetting.isDisplayTime;
                 minTimeBetweenScanSteps = appSetting.minTimeBetweenScanSteps;
+                consoleEnable = appSetting.consoleEnabled;
+                txtConsole.Visible = consoleEnable;
                 Console.WriteLine("Setting done");
             }
             else
@@ -181,6 +199,7 @@ namespace EmployeeManagement
                 {
                     lblName.Text = txtRole.Text = lblTime.Text = lblCheckinStatus.Text = lblCheckInOutStatus.Text = "";
                     picBoxEmployee.Image = null;
+                    txtWarning.Visible = false;
                 }
             }
             else if (e.KeyChar == 13 && _barcode.Count > 0) //MAIN EVENT
@@ -208,6 +227,7 @@ namespace EmployeeManagement
                 {
                     lblId.Text = lblName.Text = txtRole.Text = lblTime.Text = lblCheckinStatus.Text = "";
                     picBoxEmployee.Image = null;
+                    txtWarning.Visible = false;
                     string errorLine = DateTime.Now.ToString("HH:mm:ss") + ": Nhân viên không tồn tại: " + empId;
                     txtConsole.Text += "\n" + errorLine;
                     lblCheckInOutStatus.Text = errorLine;
@@ -453,12 +473,12 @@ namespace EmployeeManagement
                     {
                         cmd.CommandText = "update checkin set checkout='"+ timeStamp + "',pic2='" + imagePath2DB + "' where emp_no='" + id + "' and date='" + date + "' and checkout is NULL;";
                     }
-                    lblCheckinStatus.Text = "CẢM ƠN";
+                    lblCheckinStatus.Text = "XIN CẢM ƠN!";
                     Console.WriteLine("Line exist: " + cmd.CommandText);
                 }
                 else if(nowTimeSpan > timeSpanLimitForCheckin)
                 {
-                    lblCheckinStatus.Text = "Chưa checkin! Vui lòng liên hệ phòng nhân sự để xử lý!";
+                    txtWarning.Visible = true;
                     Console.WriteLine("Line not exist, forgot to checkin, contact HR admin");
                     this.CloseConnection();
                     return;
